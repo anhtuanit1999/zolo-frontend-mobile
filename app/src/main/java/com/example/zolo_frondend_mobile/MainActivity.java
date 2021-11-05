@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btnDangki = findViewById(R.id.btnDangki);
 
 
         btnDangki.setOnClickListener(new View.OnClickListener() {

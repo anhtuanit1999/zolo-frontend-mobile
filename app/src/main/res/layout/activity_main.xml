@@ -82,14 +82,24 @@
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:srcCompat="@drawable/us" />
 
-    <View
-        android:id="@+id/view3"
-        android:layout_width="376dp"
-        android:layout_height="76dp"
-        android:background="#ECE8E8"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <Button
+        android:id="@+id/btnDangki"
+        android:layout_width="307dp"
+        android:layout_height="49dp"
+        android:backgroundTint="#0386D0"
+        android:text="Đăng kí"
+
+
+    <Button
+        android:id="@+id/btnDangNhap"
+        android:layout_width="307dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#0386D0"
+        android:text="Đăng Nhập"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.583"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView

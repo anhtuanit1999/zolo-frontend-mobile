@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zolofrondendmobile">
         <activity
-            android:name=".SignUp"
+            android:name=".SignUp_GUI"
             android:exported="false" />
         <activity android:name=".MainActivity">
             <intent-filter>

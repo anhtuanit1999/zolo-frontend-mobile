@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/txt_MatKhau"
+        android:id="@+id/edtMk"
         android:layout_width="261dp"
         android:layout_height="48dp"
         android:layout_marginTop="84dp"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/txt_TaiKhoan"
+        android:id="@+id/edtSDT"
         android:layout_width="262dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -69,9 +69,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="236dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_TaiKhoan"
-        app:layout_constraintEnd_toEndOf="@+id/txt_TaiKhoan"
-        app:layout_constraintTop_toTopOf="@+id/txt_TaiKhoan"
+        app:layout_constraintBottom_toBottomOf="@+id/edtSDT"
+        app:layout_constraintEnd_toEndOf="@+id/edtSDT"
+        app:layout_constraintTop_toTopOf="@+id/edtSDT"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/mail" />
 
@@ -80,9 +80,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="236dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_MatKhau"
-        app:layout_constraintEnd_toEndOf="@+id/txt_MatKhau"
-        app:layout_constraintTop_toTopOf="@+id/txt_MatKhau"
+        app:layout_constraintBottom_toBottomOf="@+id/edtMk"
+        app:layout_constraintEnd_toEndOf="@+id/edtMk"
+        app:layout_constraintTop_toTopOf="@+id/edtMk"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/lock" />
 
@@ -90,9 +90,9 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_MatKhau"
-        app:layout_constraintEnd_toEndOf="@+id/txt_MatKhau"
-        app:layout_constraintTop_toTopOf="@+id/txt_MatKhau"
+        app:layout_constraintBottom_toBottomOf="@+id/edtMk"
+        app:layout_constraintEnd_toEndOf="@+id/edtMk"
+        app:layout_constraintTop_toTopOf="@+id/edtMk"
         app:layout_constraintVertical_bias="0.272"
         app:srcCompat="@drawable/view" />
 
@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.109"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_MatKhau" />
+        app:layout_constraintTop_toBottomOf="@+id/edtMk" />
 
     <TextView
         android:id="@+id/txt_QuenMatKhau"
@@ -133,7 +133,7 @@
         app:srcCompat="@drawable/footer2" />
 
     <Button
-        android:id="@+id/btnDangNhap"
+        android:id="@+id/btnDangki"
         android:layout_width="307dp"
         android:layout_height="49dp"
         android:backgroundTint="#0386D0"
@@ -161,6 +161,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDangNhap"
+        app:layout_constraintTop_toBottomOf="@+id/btnDangki"
         app:srcCompat="@drawable/frame" />
 </androidx.constraintlayout.widget.ConstraintLayout>

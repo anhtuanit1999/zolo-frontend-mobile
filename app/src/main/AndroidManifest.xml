@@ -9,15 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Zolofrondendmobile">
-
-
         <activity
-            android:name=".MainActivity2"
+            android:name=".KetBan_Activity"
             android:exported="true" />
-
-
-
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SignUp_GUI"
+            android:exported="false" />
+        <activity android:name=".XemDSBanBeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

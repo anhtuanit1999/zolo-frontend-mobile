@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#0386D0"
-    tools:context=".MainActivity">
+    android:background="#FFFFFF"
+    tools:context=".SignUp">
 
     <EditText
         android:id="@+id/txt_MatKhau"
@@ -13,11 +13,47 @@
         android:layout_height="48dp"
         android:layout_marginTop="84dp"
         android:ems="10"
+        android:hint="Mật khẩu"
         android:inputType="textPersonName"
-        android:text="         Mật khẩu"
+        android:paddingLeft="30dp"
         android:textColor="#7C7777"
+        android:textColorHint="#000000"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/txt_MatKhau3"
+        android:layout_width="261dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="224dp"
+        android:ems="10"
+        android:hint="Tên"
+        android:inputType="textPersonName"
+        android:paddingLeft="30dp"
+        android:textColor="#7C7777"
+        android:textColorHint="#000000"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/txt_MatKhau2"
+        android:layout_width="261dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="160dp"
+        android:ems="10"
+        android:hint="Tuổi"
+        android:inputType="textPersonName"
+        android:paddingLeft="30dp"
+        android:textColor="#7C7777"
+        android:textColorHint="#000000"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -55,9 +91,10 @@
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:ems="10"
+        android:hint="         Số điện thoại"
         android:inputType="textPersonName"
-        android:text="         Số điện thoại"
         android:textColor="#7C7777"
+        android:textColorHint="#000000"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -87,6 +124,22 @@
         app:srcCompat="@drawable/lock" />
 
     <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/txt_MatKhau2"
+        app:layout_constraintTop_toTopOf="@+id/txt_MatKhau2"
+        app:srcCompat="@drawable/lock" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/txt_MatKhau3"
+        app:layout_constraintTop_toTopOf="@+id/txt_MatKhau3"
+        app:srcCompat="@drawable/lock" />
+
+    <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,31 +148,6 @@
         app:layout_constraintTop_toTopOf="@+id/txt_MatKhau"
         app:layout_constraintVertical_bias="0.272"
         app:srcCompat="@drawable/view" />
-
-    <CheckBox
-        android:id="@+id/checkBox_DangNhap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Nhớ mật khẩu"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_MatKhau" />
-
-    <TextView
-        android:id="@+id/txt_QuenMatKhau"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:text="Quên mật khẩu ?"
-        android:textColor="#2196F3"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox_DangNhap"
-        app:layout_constraintStart_toEndOf="@+id/checkBox_DangNhap"
-        app:layout_constraintTop_toTopOf="@+id/checkBox_DangNhap"
-        app:layout_constraintVertical_bias="0.538" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -136,7 +164,7 @@
         android:layout_width="307dp"
         android:layout_height="49dp"
         android:backgroundTint="#0386D0"
-        android:text="Đăng Nhập"
+        android:text="Đăng kí"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
         app:layout_constraintStart_toStartOf="parent"

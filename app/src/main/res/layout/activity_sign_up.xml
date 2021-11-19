@@ -8,7 +8,7 @@
     tools:context=".SignUp_GUI">
 
     <EditText
-        android:id="@+id/edtMk"
+        android:id="@+id/edtPassword"
         android:layout_width="261dp"
         android:layout_height="48dp"
         android:layout_marginTop="84dp"
@@ -86,12 +86,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edtSDT"
+        android:id="@+id/edtEmail"
         android:layout_width="262dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="         Số điện thoại"
+        android:hint="         Nhập email"
         android:inputType="textPersonName"
         android:textColor="#7C7777"
         android:textColorHint="#000000"
@@ -105,11 +105,11 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/edtSDT"
-        app:layout_constraintEnd_toEndOf="@+id/edtSDT"
+        app:layout_constraintBottom_toBottomOf="@+id/edtEmail"
+        app:layout_constraintEnd_toEndOf="@+id/edtEmail"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edtSDT"
-        app:layout_constraintTop_toTopOf="@+id/edtSDT"
+        app:layout_constraintStart_toStartOf="@+id/edtEmail"
+        app:layout_constraintTop_toTopOf="@+id/edtEmail"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/mail" />
 
@@ -117,11 +117,11 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/edtMk"
-        app:layout_constraintEnd_toEndOf="@+id/edtMk"
+        app:layout_constraintBottom_toBottomOf="@+id/edtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edtPassword"
         app:layout_constraintHorizontal_bias="0.004"
-        app:layout_constraintStart_toStartOf="@+id/edtMk"
-        app:layout_constraintTop_toTopOf="@+id/edtMk"
+        app:layout_constraintStart_toStartOf="@+id/edtPassword"
+        app:layout_constraintTop_toTopOf="@+id/edtPassword"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/lock" />
 
@@ -145,9 +145,9 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/edtMk"
-        app:layout_constraintEnd_toEndOf="@+id/edtMk"
-        app:layout_constraintTop_toTopOf="@+id/edtMk"
+        app:layout_constraintBottom_toBottomOf="@+id/edtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edtPassword"
+        app:layout_constraintTop_toTopOf="@+id/edtPassword"
         app:layout_constraintVertical_bias="0.272"
         app:srcCompat="@drawable/view" />
 

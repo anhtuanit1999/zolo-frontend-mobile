@@ -73,7 +73,8 @@
         app:layout_constraintEnd_toEndOf="@+id/txt_TaiKhoan"
         app:layout_constraintTop_toTopOf="@+id/txt_TaiKhoan"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/mail" />
+        app:srcCompat="@drawable/mail"
+        android:layout_marginRight="236dp" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -84,7 +85,8 @@
         app:layout_constraintEnd_toEndOf="@+id/txt_MatKhau"
         app:layout_constraintTop_toTopOf="@+id/txt_MatKhau"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/lock" />
+        app:srcCompat="@drawable/lock"
+        android:layout_marginRight="236dp" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -119,7 +121,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/checkBox_DangNhap"
         app:layout_constraintStart_toEndOf="@+id/checkBox_DangNhap"
         app:layout_constraintTop_toTopOf="@+id/checkBox_DangNhap"
-        app:layout_constraintVertical_bias="0.538" />
+        app:layout_constraintVertical_bias="0.538"
+        android:layout_marginLeft="104dp" />
 
     <ImageView
         android:id="@+id/imageView4"

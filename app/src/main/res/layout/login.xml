@@ -5,21 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="#0386D0"
-    tools:context=".MainActivity">
-
-    <EditText
-        android:id="@+id/txt_MatKhau"
-        android:layout_width="261dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="84dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="         Mật khẩu"
-        android:textColor="#7C7777"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    tools:context=".MainActivity"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/textView2"
@@ -57,7 +44,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="         Số điện thoại"
-        android:textColor="#7C7777"
+        android:textColor="#040404"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -79,11 +66,9 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="236dp"
         app:layout_constraintBottom_toBottomOf="@+id/txt_MatKhau"
-        app:layout_constraintEnd_toEndOf="@+id/txt_MatKhau"
+        app:layout_constraintStart_toStartOf="@+id/txt_MatKhau"
         app:layout_constraintTop_toTopOf="@+id/txt_MatKhau"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/lock" />
 
     <ImageView
@@ -93,20 +78,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/txt_MatKhau"
         app:layout_constraintEnd_toEndOf="@+id/txt_MatKhau"
         app:layout_constraintTop_toTopOf="@+id/txt_MatKhau"
-        app:layout_constraintVertical_bias="0.272"
         app:srcCompat="@drawable/view" />
 
     <CheckBox
         android:id="@+id/checkBox_DangNhap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Nhớ mật khẩu"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.109"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_MatKhau" />
+        tools:layout_editor_absoluteY="281dp" />
 
     <TextView
         android:id="@+id/txt_QuenMatKhau"
@@ -162,4 +145,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDangNhap"
         app:srcCompat="@drawable/frame" />
+
+    <EditText
+        android:id="@+id/txt_MatKhau"
+        android:layout_width="258dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="        Mật khẩu"
+        android:inputType="textPassword"
+        android:textColorHint="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/txt_TaiKhoan"
+        app:layout_constraintStart_toStartOf="@+id/txt_TaiKhoan"
+        app:layout_constraintTop_toBottomOf="@+id/txt_TaiKhoan" />
 </androidx.constraintlayout.widget.ConstraintLayout>

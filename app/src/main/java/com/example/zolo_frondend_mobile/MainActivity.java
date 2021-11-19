@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                                 StatusCode200SignIn a = response.body();
                                 JWTUtils.TOKEN = a.getData().getJwt();
                                 Toast.makeText(MainActivity.this, "Dang nhap thanh cong: "+JWTUtils.TOKEN, Toast.LENGTH_SHORT).show();
+
                             }else{
                                 Toast.makeText(MainActivity.this, "Tài khoản hoặc mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show();
                             }

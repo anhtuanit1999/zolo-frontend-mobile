@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">zolo-frondend-mobile</string>
     <string name="passs">      Nhập mật khẩu</string>
+    <string name="title_activity_maps_test">Map</string>
 </resources>

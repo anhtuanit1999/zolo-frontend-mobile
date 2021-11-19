@@ -22,7 +22,7 @@ public interface ApiService {
             .create();
 
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("https://zolochat.herokuapp.com/")
+            .baseUrl("https://zolo-backend.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -30,7 +30,7 @@ public interface ApiService {
 
 
     @POST("auth/signin")
-    Call<StatusCode200SignIn> getUserSignIn(@Body String signIn);
+    Call<StatusCode200SignIn> getUserSignIn(@Body SignIn signIn);
 
     @FormUrlEncoded
     @POST("auth/signin")

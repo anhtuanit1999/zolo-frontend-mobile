@@ -8,13 +8,13 @@ public class User {
     private String phone;
     private String email;
     private String password;
-    private Long birthday;
+    private String birthday;
     private String otp;
     private Integer statusId;
     private Long expireOtp;
     private String jwt;
 
-    public User(Integer id, Integer idRole, String nickname, String fullName, String phone, String email, String password, Long birthday, String otp, Integer statusId, Long expireOtp, String jwt) {
+    public User(Integer id, Integer idRole, String nickname, String fullName, String phone, String email, String password, String birthday, String otp, Integer statusId, Long expireOtp, String jwt) {
         this.id = id;
         this.idRole = idRole;
         this.nickname = nickname;
@@ -85,11 +85,11 @@ public class User {
         this.password = password;
     }
 
-    public Long getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Long birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

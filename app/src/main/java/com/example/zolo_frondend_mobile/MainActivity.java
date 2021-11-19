@@ -42,35 +42,35 @@ public class MainActivity extends AppCompatActivity {
         btnDangnhap = findViewById(R.id.btnDangNhap);
         btnDangki = findViewById(R.id.btnDangki);
 
-        btnDangnhap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadList();
-                String email = edtEmail.getText().toString();
-                String password = edtPassword.getText().toString();
-                boolean isSuccess = false;
-                for (UserMockAPI user: list) {
-                    if(password.equals(user.getMatkhau()) && email.equals(user.getEmail())){
-                        Toast.makeText(MainActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
-                        isSuccess = true;
-                    }
-                }
-                if(isSuccess){
-                    Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(MainActivity.this, "Tài khoản hoặc mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
 //        btnDangnhap.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//                loadList();
 //                String email = edtEmail.getText().toString();
 //                String password = edtPassword.getText().toString();
-//                SignIn object = new SignIn(email, password);
-//                Gson gson = new Gson();
-//                String signin = gson.toJson(object);
+//                boolean isSuccess = false;
+//                for (UserMockAPI user: list) {
+//                    if(password.equals(user.getMatkhau()) && email.equals(user.getEmail())){
+//                        Toast.makeText(MainActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
+//                        isSuccess = true;
+//                    }
+//                }
+//                if(isSuccess){
+//                    Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    Toast.makeText(MainActivity.this, "Tài khoản hoặc mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
+        btnDangnhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = edtEmail.getText().toString();
+                String password = edtPassword.getText().toString();
+                SignIn object = new SignIn(email, password);
+                Gson gson = new Gson();
+                String signin = gson.toJson(object);
 //                ApiService.apiService.getUserSignIna(email, password).enqueue(new Callback<StatusCode200SignIn>() {
 //                    @Override
 //                    public void onResponse(Call<StatusCode200SignIn> call, Response<StatusCode200SignIn> response) {
@@ -87,27 +87,32 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this, "err: "+t.getMessage(), Toast.LENGTH_SHORT).show();
 //                    }
 //                });
-//                ApiService.apiService.getUserSignIn(signin).enqueue(new Callback<StatusCode200SignIn>() {
-//                    @Override
-//                    public void onResponse(Call<StatusCode200SignIn> call, Response<StatusCode200SignIn> response) {
-//                        if(response.isSuccessful()){
-//                            Toast.makeText(MainActivity.this, ""+response.body(), Toast.LENGTH_SHORT).show();
-//                            StatusCode200SignIn a = response.body();
-//                            JWTUtils.TOKEN = a.getData().getJwt();
-//                            Toast.makeText(MainActivity.this, "Dang nhap thanh cong: "+JWTUtils.TOKEN, Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            Toast.makeText(MainActivity.this, "Tài khoản hoặc mật khẩu không đúng "+response.body(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<StatusCode200SignIn> call, Throwable t) {
-//                        Log.e("a",t.getMessage());
-//                        Toast.makeText(MainActivity.this, "err: "+t.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
+                ApiService.apiService.getUserSignIn(new SignIn(email, password)).enqueue(new Callback<StatusCode200SignIn>() {
+                    @Override
+                    public void onResponse(Call<StatusCode200SignIn> call, Response<StatusCode200SignIn> response) {
+                        if(response.isSuccessful()){
+                            if(response.body().getCode() == 200 ){
+                                Toast.makeText(MainActivity.this, ""+response.body(), Toast.LENGTH_SHORT).show();
+                                StatusCode200SignIn a = response.body();
+                                JWTUtils.TOKEN = a.getData().getJwt();
+                                Toast.makeText(MainActivity.this, "Dang nhap thanh cong: "+JWTUtils.TOKEN, Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(MainActivity.this, "Tài khoản hoặc mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show();
+                            }
+                            
+                        }else{
+                            Toast.makeText(MainActivity.this, "Tài khoản hoặc mật khẩu không đúng "+response.body(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<StatusCode200SignIn> call, Throwable t) {
+                        Log.e("a",t.getMessage());
+                        Toast.makeText(MainActivity.this, "err: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         btnDangki.setOnClickListener(new View.OnClickListener() {
             @Override

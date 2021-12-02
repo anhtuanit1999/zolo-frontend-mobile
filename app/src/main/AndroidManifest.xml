@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.zolo_frondend_mobile">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -18,7 +17,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zolofrondendmobile"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".NewPassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgorPassWord_GUI"
+            android:exported="false" />
+        <activity
+            android:name=".ChangePassword_GUI"
+            android:exported="false" />
+        <activity
+            android:name=".Profile_GUI"
+            android:exported="false" />
+        <activity
+            android:name=".DanhSachBanBe_GUI"
+            android:exported="false" />
+        <activity
+            android:name=".XacThuc_GUI"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -33,9 +55,7 @@
 
         <activity
             android:name=".MapsActivityTest"
-            android:label="@string/title_activity_maps_test">
-
-        </activity>
+            android:label="@string/title_activity_maps_test" />
         <activity
             android:name=".KetBan_Activity"
             android:exported="true" />
@@ -51,7 +71,7 @@
         <activity
             android:name=".SignUp_GUI"
             android:exported="false" />
-        <activity android:name=".XemDSBanBeActivity"></activity>
+        <activity android:name=".XemDSBanBeActivity" />
     </application>
 
 </manifest>

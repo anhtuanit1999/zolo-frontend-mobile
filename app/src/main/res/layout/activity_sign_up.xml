@@ -8,30 +8,51 @@
     tools:context=".SignUp_GUI">
 
     <EditText
-        android:id="@+id/edtTen"
+        android:id="@+id/edtFullName"
         android:layout_width="261dp"
         android:layout_height="48dp"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="184dp"
         android:ems="10"
-        android:hint="Tên"
+        android:hint="Họ và Tên"
         android:inputType="textPersonName"
         android:paddingLeft="30dp"
+        android:text="anhtuanit"
         android:textColor="#7C7777"
         android:textColorHint="#000000"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/edtTuoi"
+        android:id="@+id/edtPhone"
         android:layout_width="261dp"
         android:layout_height="48dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="248dp"
         android:ems="10"
-        android:hint="Tuổi"
+        android:hint="Số điện thoại"
         android:inputType="textPersonName"
         android:paddingLeft="30dp"
+        android:text="0944734501"
+        android:textColor="#7C7777"
+        android:textColorHint="#000000"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/edtNickName"
+        android:layout_width="261dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="128dp"
+        android:ems="10"
+        android:hint="Nhập Nick Name"
+        android:inputType="textPersonName"
+        android:paddingLeft="30dp"
+        android:text="tuan"
         android:textColor="#7C7777"
         android:textColorHint="#000000"
         android:textSize="15dp"
@@ -50,7 +71,7 @@
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -72,15 +93,17 @@
         android:id="@+id/edtEmail"
         android:layout_width="262dp"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
-        android:hint="         Nhập email"
+        android:hint="Nhập email"
         android:inputType="textPersonName"
+        android:paddingLeft="30dp"
+        android:text="test1@gmail.com"
         android:textColor="#7C7777"
         android:textColorHint="#000000"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -116,8 +139,8 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="411dp"
+        android:layout_height="240dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -132,9 +155,10 @@
         android:text="Đăng kí"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.17" />
+        app:layout_constraintVertical_bias="0.095" />
 
     <ImageView
         android:id="@+id/imageView6"
@@ -163,12 +187,23 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="        Nhập mật khẩu"
+        android:hint="Nhập mật khẩu"
         android:inputType="textPassword"
+        android:paddingLeft="30dp"
+        android:text="123456"
         android:textColor="#040303"
         android:textColorHint="#1C1A1A"
         app:layout_constraintEnd_toEndOf="@+id/edtEmail"
         app:layout_constraintStart_toStartOf="@+id/edtEmail"
         app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
+
+    <Button
+        android:id="@+id/btnXacThuc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Xác thực"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,9 +10,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.zolo_frondend_mobile.api.ApiService;
-import com.example.zolo_frondend_mobile.api.ApiServiceMockAPi;
+import com.example.zolo_frondend_mobile.entity.SignUp;
+import com.example.zolo_frondend_mobile.entity.StatusCode200SignUp;
+import com.example.zolo_frondend_mobile.entity.StatusCode204VerifyOTP;
+import com.example.zolo_frondend_mobile.model.User;
 import com.example.zolo_frondend_mobile.model.UserMockAPI;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,60 +28,99 @@ import retrofit2.Response;
 
 public class SignUp_GUI extends AppCompatActivity {
     List<UserMockAPI> list = new ArrayList<>();
-    EditText edtSDT, edtMk, edtTen, edtTuoi;
-    Button btnSignUp;
+    EditText edtEmail, edtPass, edtFullName, edtNickName, edtPhone;
+    Button btnSignUp, btnXacThuc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        edtSDT = findViewById(R.id.edtEmail);
-        edtMk = findViewById(R.id.edtPassword);
-        edtTen = findViewById(R.id.edtTen);
-        edtTuoi = findViewById(R.id.edtTuoi);
+        edtEmail = findViewById(R.id.edtEmail);
+        edtPass = findViewById(R.id.edtPassword);
+        edtFullName = findViewById(R.id.edtFullName);
+        edtNickName = findViewById(R.id.edtNickName);
+        edtPhone = findViewById(R.id.edtPhone);
         btnSignUp = findViewById(R.id.btnDangki);
+        btnXacThuc = findViewById(R.id.btnXacThuc);
+
+        btnXacThuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUp_GUI.this, XacThuc_GUI.class));
+            }
+        });
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadList();
-                String email = edtSDT.getText().toString();
-                String mk = edtMk.getText().toString();
-                String ten = edtTen.getText().toString();
-                String tuoi = edtTuoi.getText().toString();
-                ApiServiceMockAPi.apiService.addUser(new UserMockAPI(list.size()+1+"",email, mk, Integer.parseInt(tuoi), ten)).enqueue(new Callback<UserMockAPI>() {
+                String email = edtEmail.getText().toString();
+                String pass = edtPass.getText().toString();
+                String fullname = edtFullName.getText().toString();
+                String nickname = edtNickName.getText().toString();
+                String phone = edtPhone.getText().toString();
+                ApiService.apiService.getUserSignUp(new SignUp(phone,nickname,fullname,email, pass,1)).enqueue(new Callback<StatusCode200SignUp>() {
                     @Override
-                    public void onResponse(Call<UserMockAPI> call, Response<UserMockAPI> response) {
-                        Toast.makeText(SignUp_GUI.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignUp_GUI.this, MainActivity.class));
+                    public void onResponse(Call<StatusCode200SignUp> call, Response<StatusCode200SignUp> response) {
+                        if(response.isSuccessful()){
+                            if(response.body().getCode() == 200){
+                                User user = response.body().getData();
+                                Toast.makeText(SignUp_GUI.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignUp_GUI.this, XacThuc_GUI.class);
+                                intent.putExtra("email",user.getEmail());
+                                startActivity(intent);
+                            }else if(response.body().getCode() != 200){
+                                ApiService.apiService.getUserSignUpFail(new SignUp(phone,nickname,fullname,email, pass,1)).enqueue(new Callback<StatusCode204VerifyOTP>() {
+                                    @Override
+                                    public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response1) {
+                                        Toast.makeText(SignUp_GUI.this, ""+response1.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<StatusCode204VerifyOTP> call, Throwable t) {
+
+                                    }
+                                });
+
+                            }else{
+                                Toast.makeText(SignUp_GUI.this, "Đăng kí không hợp lệ ", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            ApiService.apiService.getUserSignUpFail(new SignUp(phone,nickname,fullname,email, pass,1)).enqueue(new Callback<StatusCode204VerifyOTP>() {
+                                @Override
+                                public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response1) {
+                                    if(response1.code() == 400){
+                                        Gson gson = new GsonBuilder().create();
+                                        StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                                        try{
+                                            mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                                            Toast.makeText(SignUp_GUI.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                        }catch(IOException e){
+                                            Toast.makeText(SignUp_GUI.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+//                                        Toast.makeText(SignUp_GUI.this, "aaa"+response1.errorBody(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<StatusCode204VerifyOTP> call, Throwable t) {
+
+                                }
+                            });
+//                            Toast.makeText(SignUp_GUI.this, "Đăng kí không hợp lệ "+response.body(), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<UserMockAPI> call, Throwable t) {
-                        Toast.makeText(SignUp_GUI.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<StatusCode200SignUp> call, Throwable t) {
+
                     }
                 });
             }
         });
 
 
+
     }
 
-    private void loadList(){
-        ApiServiceMockAPi.apiService.getList().enqueue(new Callback<List<UserMockAPI>>() {
-            @Override
-            public void onResponse(Call<List<UserMockAPI>> call, Response<List<UserMockAPI>> response) {
-                list = response.body();
-                if(list != null && response.isSuccessful()){
-//                    Toast.makeText(MainActivity.this, "a: "+list, Toast.LENGTH_SHORT).show();
-                }else{
-//                    Toast.makeText(MainActivity.this, "loi ", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<UserMockAPI>> call, Throwable t) {
-                Toast.makeText(SignUp_GUI.this, "err: "+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

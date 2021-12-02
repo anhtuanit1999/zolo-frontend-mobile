@@ -14,6 +14,9 @@ public class User {
     private Long expireOtp;
     private String jwt;
 
+    public User() {
+    }
+
     public User(Integer id, Integer idRole, String nickname, String fullName, String phone, String email, String password, String birthday, String otp, Integer statusId, Long expireOtp, String jwt) {
         this.id = id;
         this.idRole = idRole;

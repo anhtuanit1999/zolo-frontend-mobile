@@ -15,6 +15,7 @@
         android:layout_marginTop="84dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:text="123456"
         android:textColor="#7C7777"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,6 +58,7 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:text="thaihuyhoang2k@gmail.com"
         android:textColor="#7C7777"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -190,4 +192,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDangNhap"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnVerifyOTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Xác thực"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.915"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

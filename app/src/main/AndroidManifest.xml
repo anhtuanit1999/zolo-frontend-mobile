@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.zolo_frondend_mobile">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -17,6 +18,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zolofrondendmobile"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".chat.MessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".danhsach.ProfileFriend"
+            android:exported="false" />
+        <activity
+            android:name=".danhsach.AcceptFriend1Activity"
+            android:exported="false" />
+        <activity
+            android:name=".danhsach.NotFriendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".danhsach.FriendActivity"
+            android:exported="false" />
         <activity
             android:name=".NewPassActivity"
             android:exported="false" />
@@ -70,6 +89,9 @@
         </activity>
         <activity
             android:name=".SignUp_GUI"
+            android:exported="false" />
+        <activity
+            android:name=".group.ProfileGroup_GUI"
             android:exported="false" />
         <activity android:name=".XemDSBanBeActivity" />
     </application>

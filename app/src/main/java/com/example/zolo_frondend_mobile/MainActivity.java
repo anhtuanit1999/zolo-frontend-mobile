@@ -3,15 +3,19 @@ package com.example.zolo_frondend_mobile;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zolo_frondend_mobile.api.ApiService;
+import com.example.zolo_frondend_mobile.danhsach.FriendActivity;
+import com.example.zolo_frondend_mobile.danhsach.NotFriendActivity;
 import com.example.zolo_frondend_mobile.entity.ResendOTP;
 import com.example.zolo_frondend_mobile.entity.SignIn;
 import com.example.zolo_frondend_mobile.entity.StatusCode200SignIn;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnDangki, btnDangnhap, btnVerifyOTP;
     TextView txt_QuenMatKhau;
     EditText edtEmail, edtPassword;
+    ProgressBar proDN;
     List<UserMockAPI> list = new ArrayList<>();
     // thieu khai bao a`
     @Override
@@ -52,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         btnDangki = findViewById(R.id.btnDangki);
         btnVerifyOTP = findViewById(R.id.btnVerifyOTP);
         txt_QuenMatKhau= findViewById(R.id.txt_QuenMatKhau);
+        proDN= findViewById(R.id.proDN);
+
+//        proDN.getProgressDrawable().setColorFilter(
+//                Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        proDN.setVisibility(View.GONE);
 
         String email = getIntent().getStringExtra("email");
         if(email != null){
@@ -112,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 SignIn object = new SignIn(email, password);
                 Gson gson = new Gson();
                 String signin = gson.toJson(object);
+                proDN.setVisibility(View.VISIBLE);
                 ApiService.apiService.getUserSignIn(new SignIn(email, password)).enqueue(new Callback<StatusCode200SignIn>() {
                     @Override
                     public void onResponse(Call<StatusCode200SignIn> call, Response<StatusCode200SignIn> response) {
@@ -123,12 +134,14 @@ public class MainActivity extends AppCompatActivity {
                                 JWTUtils.EMAIL = a.getData().getEmail();
                                 JWTUtils.USER_ZOLO = a.getData();
                                 Toast.makeText(MainActivity.this, "Dang nhap thanh cong: "+JWTUtils.TOKEN, Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, Profile_GUI.class));
+                                startActivity(new Intent(MainActivity.this, FriendActivity.class));
+                                proDN.setVisibility(View.GONE);
                             }else if(response.body().getCode() != 200){
                                 ApiService.apiService.getUserSignInFail(new SignIn(email, password)).enqueue(new Callback<StatusCode204VerifyOTP>() {
                                     @Override
                                     public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response) {
                                         Toast.makeText(MainActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                        proDN.setVisibility(View.GONE);
                                     }
 
                                     @Override
@@ -138,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }else{
                                 Toast.makeText(MainActivity.this, "Sign In Fail", Toast.LENGTH_SHORT).show();
+                                proDN.setVisibility(View.GONE);
                             }
                             
                         }else{
@@ -150,8 +164,9 @@ public class MainActivity extends AppCompatActivity {
                                         try{
                                             mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                                             Toast.makeText(MainActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                            proDN.setVisibility(View.GONE);
                                         }catch(IOException e){
-
+                                            proDN.setVisibility(View.GONE);
                                         }
 //                                        Toast.makeText(SignUp_GUI.this, "aaa"+response1.errorBody(), Toast.LENGTH_SHORT).show();
                                     }

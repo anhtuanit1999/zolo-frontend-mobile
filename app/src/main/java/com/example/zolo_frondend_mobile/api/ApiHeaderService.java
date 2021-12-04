@@ -1,11 +1,15 @@
 package com.example.zolo_frondend_mobile.api;
 
+import com.example.zolo_frondend_mobile.danhsach.Friend;
+import com.example.zolo_frondend_mobile.entity.GetFriend;
+import com.example.zolo_frondend_mobile.entity.GetGroup;
 import com.example.zolo_frondend_mobile.entity.StatusCode204VerifyOTP;
 import com.example.zolo_frondend_mobile.utils.JWTUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Interceptor;
@@ -16,6 +20,9 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiHeaderService {
@@ -36,8 +43,8 @@ public interface ApiHeaderService {
             .create();
 
     ApiHeaderService apiService = new Retrofit.Builder()
-            .baseUrl("https://zolo-backend.herokuapp.com/")
-//            .baseUrl("http://localhost:3000/")
+//            .baseUrl("https://zolo-backend.herokuapp.com/")
+            .baseUrl("http://192.168.100.4:3000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
@@ -45,6 +52,44 @@ public interface ApiHeaderService {
 
     @POST("auth/changepassword")
     Call<StatusCode204VerifyOTP> getNewPassword(@Body Map<String, String> changes);
+
+    @FormUrlEncoded
+    @POST("friend/getall")
+    Call<GetFriend> getFriends(@Field("limit") int limit, @Field("lastId") int lastId);
+
+//    @GET("user/detail")
+//    Call<GetFriend> getAllUsers();
+
+    @GET("user/all")
+    Call<List<Friend>> getAllUsers();
+
+    @FormUrlEncoded
+    @POST("friend/make")
+    Call<StatusCode204VerifyOTP> inviteFriend(@Field("idFriend") long idFriend);
+
+    @FormUrlEncoded
+    @POST("friend/getinvite")
+    Call<GetFriend> getInviteFriends(@Field("limit") int limit, @Field("lastId") int lastId);
+
+    @FormUrlEncoded
+    @POST("friend/deny")
+    Call<StatusCode204VerifyOTP> denyFriend(@Field("idFriend") long idFriend);
+
+    @FormUrlEncoded
+    @POST("friend/add")
+    Call<StatusCode204VerifyOTP> AcceptOrDeleteFriend(@Field("idFriend") long idFriend);
+
+    @FormUrlEncoded
+    @POST("group/get")
+    Call<GetGroup> getGroup(@Field("limit") int limit, @Field("lastId") int lastId);
+
+    @FormUrlEncoded
+    @POST("group/create")
+    Call<StatusCode204VerifyOTP> CreatGroup(@Field("idFriends") List<Long> idFriends, @Field("name") String nameGroup);
+
+    @FormUrlEncoded
+    @POST("group/getallmember")
+    Call<GetFriend> getGroupMember(@Field("groupId") long groupId);
 
 
 }

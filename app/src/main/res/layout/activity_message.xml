@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".chat.MessageActivity">
+
+<!--    <android.support.design.widget.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:id="@+id/bar_layout"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <android.support.v7.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/purple_200">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:src="@drawable/ic_action_name"-->
+<!--            android:id="@+id/profile_image"/>-->
+<!--         <TextView-->
+<!--             android:layout_width="wrap_content"-->
+<!--             android:layout_height="wrap_content"-->
+<!--             android:id="@+id/username"-->
+<!--             android:textSize="18sp"-->
+<!--             android:text="ashiba"-->
+<!--             android:layout_marginLeft="25dp"-->
+<!--             android:textColor="#fff"-->
+<!--             android:textStyle="bold"-->
+<!--             android:layout_marginStart="25dp"/>-->
+<!--        </android.support.v7.widget.Toolbar>-->
+<!--    </android.support.design.widget.AppBarLayout>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_vew"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom" />
+<!--        android:layout_below="@+id/bar_layout" -->
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:id="@+id/bottom"
+        android:background="#fff"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/textsend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:background="@color/white"
+            android:hint="Type a message..."
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_action_name" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

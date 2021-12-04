@@ -1,5 +1,7 @@
 package com.example.zolo_frondend_mobile.api;
 
+import com.example.zolo_frondend_mobile.danhsach.Friend;
+import com.example.zolo_frondend_mobile.entity.GetFriend;
 import com.example.zolo_frondend_mobile.entity.ResendOTP;
 import com.example.zolo_frondend_mobile.entity.SignIn;
 import com.example.zolo_frondend_mobile.entity.SignUp;
@@ -10,6 +12,7 @@ import com.example.zolo_frondend_mobile.entity.VerifyOTP;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Response;
@@ -31,8 +34,8 @@ public interface ApiService {
             .create();
 
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("https://zolo-backend.herokuapp.com/")
-//            .baseUrl("http://localhost:3000/")
+//            .baseUrl("https://zolo-backend.herokuapp.com/")
+            .baseUrl("http://192.168.100.4:3000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -70,4 +73,7 @@ public interface ApiService {
 
     @POST("auth/newpassword")
     Call<StatusCode204VerifyOTP> getNNewPassword(@Body Map<String, String> changes);
+
+    @GET("users/all")
+    Call<GetFriend> getAllUsers();
 }

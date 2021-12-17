@@ -8,8 +8,8 @@
 
     <View
         android:id="@+id/view4"
-        android:layout_width="370dp"
-        android:layout_height="117dp"
+        android:layout_width="375dp"
+        android:layout_height="152dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/imgItem"
-        android:layout_width="93dp"
-        android:layout_height="93dp"
+        android:layout_width="102dp"
+        android:layout_height="116dp"
         app:layout_constraintBottom_toBottomOf="@+id/view4"
         app:layout_constraintStart_toStartOf="@+id/view4"
         app:layout_constraintTop_toTopOf="@+id/view4"
@@ -52,5 +52,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgItem"
         app:layout_constraintStart_toEndOf="@+id/imgItem"
         app:layout_constraintTop_toTopOf="@+id/view4"
-        app:layout_constraintVertical_bias="0.794" />
+        app:layout_constraintVertical_bias="0.532" />
+
+    <Button
+        android:id="@+id/btnItemText"
+        android:layout_width="82dp"
+        android:layout_height="41dp"
+        android:text="Text"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
+        app:layout_constraintStart_toEndOf="@+id/imgItem"
+        app:layout_constraintTop_toBottomOf="@+id/tvItemFullname" />
 </androidx.constraintlayout.widget.ConstraintLayout>

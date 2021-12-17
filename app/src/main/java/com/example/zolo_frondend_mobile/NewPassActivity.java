@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.zolo_frondend_mobile.api.ApiService;
@@ -25,6 +26,7 @@ import retrofit2.Response;
 public class NewPassActivity extends AppCompatActivity {
     EditText edtNEmail, edtNOTP, edtNNewPass;
     Button btnNewPas;
+    ProgressBar progressBar5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class NewPassActivity extends AppCompatActivity {
         edtNOTP = findViewById(R.id.edtNOTP);
         edtNNewPass = findViewById(R.id.edtNNewPass);
         btnNewPas = findViewById(R.id.btnNewPas);
+        progressBar5 = findViewById(R.id.progressBar5);
+        progressBar5.setVisibility(View.GONE);
 
         String email = getIntent().getStringExtra("email");
         if(email != null){
@@ -42,6 +46,7 @@ public class NewPassActivity extends AppCompatActivity {
         btnNewPas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar5.setVisibility(View.VISIBLE);
                 Map<String, String> changes = new HashMap<>();
                 changes.put("email", edtNEmail.getText().toString());
                 changes.put("otp", edtNOTP.getText().toString());
@@ -57,6 +62,7 @@ public class NewPassActivity extends AppCompatActivity {
                                     Intent intent = new Intent(NewPassActivity.this, MainActivity.class);
                                     intent.putExtra("email",edtNEmail.getText().toString());
                                     startActivity(intent);
+                                    progressBar5.setVisibility(View.GONE);
                                 }else{
                                     Toast.makeText(NewPassActivity.this, "Message: "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 }

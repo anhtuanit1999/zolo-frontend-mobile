@@ -15,6 +15,7 @@
         android:layout_marginTop="84dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:paddingLeft="30dp"
         android:text="123456"
         android:textColor="#7C7777"
         android:textSize="15dp"
@@ -58,6 +59,7 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:paddingLeft="30dp"
         android:text="test1@gmail.com"
         android:textColor="#7C7777"
         android:textSize="15dp"
@@ -188,10 +190,10 @@
         android:layout_marginTop="12dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDangNhap"
-        tools:ignore="MissingConstraints" />
+         />
 
     <Button
         android:id="@+id/btnVerifyOTP"

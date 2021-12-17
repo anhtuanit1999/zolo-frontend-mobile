@@ -33,6 +33,19 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/view6"
         app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toEndOf="@+id/imgGroup"
-        app:layout_constraintTop_toTopOf="@+id/view6" />
+        app:layout_constraintTop_toTopOf="@+id/view6"
+        app:layout_constraintVertical_bias="0.072" />
+
+    <Button
+        android:id="@+id/btnGText"
+        android:layout_width="119dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="20dp"
+        android:text="Text"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintStart_toEndOf="@+id/imgGroup"
+        app:layout_constraintTop_toBottomOf="@+id/tvGName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

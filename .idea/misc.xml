@@ -18,29 +18,30 @@
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_danh_sach_ban_be_gui.xml" value="0.264" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_forgor_pass_word_gui.xml" value="0.25416666666666665" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_forgot_password.xml" value="0.1828125" />
-        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_friend.xml" value="0.25416666666666665" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_friend.xml" value="0.4" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_group_profile.xml" value="0.27291666666666664" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_map.xml" value="0.25416666666666665" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_maps_test.xml" value="0.13125" />
-        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_message.xml" value="0.25885416666666666" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_message.xml" value="0.264" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_new_pass.xml" value="0.2" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_new_pass_word_gui.xml" value="0.25416666666666665" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_new_password_gui.xml" value="0.25416666666666665" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_not_friend.xml" value="0.25416666666666665" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_profile_friend.xml" value="0.25416666666666665" />
-        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_profile_gui.xml" value="0.25416666666666665" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_profile_gui.xml" value="0.4" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_sign_up_gui.xml" value="0.12291666666666666" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_waitting_add_friend.xml" value="0.24010416666666667" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_xac_thuc_gui.xml" value="0.264" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/activity_xem_dsban_be.xml" value="0.13125" />
-        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/chat_item_right.xml" value="0.27291666666666664" />
-        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/chat_tem_left.xml" value="0.27291666666666664" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/chat_item_right.xml" value="0.29736842105263156" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/chat_tem_left.xml" value="0.6" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_accept.xml" value="0.4" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_danhsach.xml" value="0.4" />
-        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_friend.xml" value="0.4" />
-        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_group.xml" value="0.27291666666666664" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_friend.xml" value="0.6" />
+        <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_group.xml" value="0.536" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_ketban.xml" value="0.536" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_member.xml" value="0.536" />
         <entry key="..\:/HK1_21_22/zolo-frontend-mobile/app/src/main/res/layout/item_member_group_detail.xml" value="0.27419354838709675" />

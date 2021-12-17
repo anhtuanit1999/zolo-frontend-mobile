@@ -1,5 +1,9 @@
 package com.example.zolo_frondend_mobile.api;
 
+import com.example.zolo_frondend_mobile.chat.StatusChat;
+import com.example.zolo_frondend_mobile.chat.StatusGetOneGroup;
+import com.example.zolo_frondend_mobile.chat.StatusGroupSingle;
+import com.example.zolo_frondend_mobile.chat.StatusMessageGet;
 import com.example.zolo_frondend_mobile.danhsach.Friend;
 import com.example.zolo_frondend_mobile.entity.GetFriend;
 import com.example.zolo_frondend_mobile.entity.GetGroup;
@@ -43,8 +47,8 @@ public interface ApiHeaderService {
             .create();
 
     ApiHeaderService apiService = new Retrofit.Builder()
-//            .baseUrl("https://zolo-backend.herokuapp.com/")
-            .baseUrl("http://192.168.100.4:3000/")
+            .baseUrl("https://zolo-backend.herokuapp.com/")
+//            .baseUrl("http://192.168.100.4:3000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
@@ -90,6 +94,23 @@ public interface ApiHeaderService {
     @FormUrlEncoded
     @POST("group/getallmember")
     Call<GetFriend> getGroupMember(@Field("groupId") long groupId);
+
+    @FormUrlEncoded
+    @POST("message/getall")
+    Call<StatusMessageGet> getAllMessage(@Field("chatgroupId") int chatgroupId, @Field("limit") int limit, @Field("lastId") int lastId);
+
+    @FormUrlEncoded
+    @POST("message/create")
+    Call<StatusChat> createChat(@Field("chatgroupId") int chatgroupId, @Field("content") String content);
+
+    @FormUrlEncoded
+    @POST("group/getorcreatesingle")
+    Call<StatusGroupSingle> getGroupSingle(@Field("idFriend") long idFriend);
+
+    @FormUrlEncoded
+    @POST("group/getgroupid")
+    Call<StatusGetOneGroup> getGroupById(@Field("groupId") int groupId);
+
 
 
 }

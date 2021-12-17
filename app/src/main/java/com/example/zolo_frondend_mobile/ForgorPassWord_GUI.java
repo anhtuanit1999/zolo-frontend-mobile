@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +25,15 @@ public class ForgorPassWord_GUI extends AppCompatActivity {
 
     TextView edtFEmail;
     Button btnFOTP;
+    ProgressBar progressBar2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgor_pass_word_gui);
         edtFEmail =  findViewById(R.id.edtFEmail);
         btnFOTP =  findViewById(R.id.btnFOTP);
+        progressBar2 =  findViewById(R.id.progressBar2);
+        progressBar2.setVisibility(View.GONE);
 
         String email = getIntent().getStringExtra("email");
         if(email != null){
@@ -39,6 +43,7 @@ public class ForgorPassWord_GUI extends AppCompatActivity {
         btnFOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar2.setVisibility(View.VISIBLE);
                 ApiService.apiService.getForgotPassWordinMain(edtFEmail.getText().toString()).enqueue(new Callback<StatusCode204VerifyOTP>() {
                     @Override
                     public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response) {
@@ -50,6 +55,7 @@ public class ForgorPassWord_GUI extends AppCompatActivity {
                                     Intent intent = new Intent(ForgorPassWord_GUI.this, NewPassActivity.class);
                                     intent.putExtra("email", edtFEmail.getText().toString());
                                     startActivity(intent);
+                                    progressBar2.setVisibility(View.GONE);
                                 }else{
                                     Toast.makeText(ForgorPassWord_GUI.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 }

@@ -13,75 +13,91 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.zolo_frondend_mobile.R;
 import com.example.zolo_frondend_mobile.danhsach.Friend;
 import com.example.zolo_frondend_mobile.danhsach.OnClickAddFriend;
+import com.example.zolo_frondend_mobile.utils.JWTUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder>{
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
 
-    List<Friend> mFriends;
+    List<MessageGet> mChats;
     OnClickAddFriend mAddFriend;
+    private String imageurl;
+    private Integer position1;
 
-    public MessageAdapter(List<Friend> friends, OnClickAddFriend onClickNotFriend) {
-        mFriends = friends;
-        mAddFriend = onClickNotFriend;
+    public MessageAdapter(List<MessageGet> friends) {
+        mChats = friends;
+//        mAddFriend = onClickNotFriend;
+//        imageurl=  imageurl1;
     }
 
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_accept,parent,false);
-        return new MessageAdapter.ViewHolder(view);
+        if(viewType == MSG_TYPE_RIGHT){
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_right,parent,false);
+            return new MessageAdapter.ViewHolder(view);
+        }else{
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_tem_left,parent,false);
+            return new MessageAdapter.ViewHolder(view);
+        }
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
-        Friend friend = mFriends.get(position);
-        holder.mFriend = friend;
-        holder.imgAItem.setImageResource(R.drawable.tuong);
-        holder.tvAItemNickname.setText(friend.getNickname());
-        holder.tvAItemFullname.setText(friend.getFullName());
-        holder.btnAccept.setText("Chấp nhận");
-        holder.btnDeny.setText("Hủy");
+        MessageGet chat = mChats.get(position);
+        holder.show_message.setText(chat.getContent());
+        holder.tv_Name_text.setText(chat.getUser());
+
+
+        Date date = new Date(chat.getCreateAt());
+//        String formatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+        String formatted = new SimpleDateFormat("HH:mm").format(date);
+        holder.tv_time.setText(formatted+"");
+
+//        if(imageurl.equals("default"){
+//            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+//        }else{
+//            GLode.with(mContext).load(imageurl).into(holder.profile_image);
+//        }
+
     }
 
     @Override
     public int getItemCount() {
-        return mFriends.size();
+        return mChats.size();
     }
-    public void changList(List<Friend> notFriends) {
-        mFriends = notFriends;
+    public void changList(List<MessageGet> notFriends) {
+        mChats = notFriends;
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        Friend mFriend;
+        Chat mChat;
         int position;
-        ImageView imgAItem;
-        TextView tvAItemNickname, tvAItemFullname;
-        Button btnAccept, btnDeny;
+        ImageView profile_image;
+        TextView show_message, tv_Name_text, tv_time;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgAItem = itemView.findViewById(R.id.imgAItem);
-            tvAItemNickname = itemView.findViewById(R.id.tvAItemNickname);
-            tvAItemFullname = itemView.findViewById(R.id.tvAItemFullname);
-            btnAccept = itemView.findViewById(R.id.btnAccept);
-            btnDeny = itemView.findViewById(R.id.btnDeny);
+            profile_image =  itemView.findViewById(R.id.profile_image);
+            show_message =  itemView.findViewById(R.id.show_message);
+            tv_Name_text =  itemView.findViewById(R.id.tv_Name_text);
+            tv_time =  itemView.findViewById(R.id.tv_time);
+        }
+    }
 
-            btnAccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mAddFriend.ButtonAcceptFriendClick(mFriend);
-                }
-            });
-            btnDeny.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mAddFriend.ButtonDenyFriendClick(mFriend);
-                }
-            });
-
+    @Override
+    public int getItemViewType(int position) {
+        Integer id = mChats.get(position).getUserId();
+        Integer userId = JWTUtils.USER_ZOLO.getId();
+        if( String.valueOf(id).equals(String.valueOf(userId))){
+            return MSG_TYPE_RIGHT;//1
+        }else{
+            return MSG_TYPE_LEFT;//0
         }
     }
 }

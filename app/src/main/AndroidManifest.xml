@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Zolofrondendmobile"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MapActivity"
+            android:exported="false" />
+        <activity
             android:name=".chat.MessageActivity"
             android:exported="false" />
         <activity

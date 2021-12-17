@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zolo_frondend_mobile.MainActivity;
 import com.example.zolo_frondend_mobile.R;
 import com.example.zolo_frondend_mobile.api.ApiHeaderService;
 import com.example.zolo_frondend_mobile.entity.GetFriend;
@@ -29,12 +33,17 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
     private CustomAdapterAcceptFriend adt;
     List<Friend> mAFriends = new ArrayList<>();
     TextView tv_addF;
+    ProgressBar progressBar9;
+    ImageButton imgBtnAHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accept_friend1);
         rcv_accept = findViewById(R.id.rcv_accept1);
+        imgBtnAHome = findViewById(R.id.imgBtnAHome);
+        progressBar9 = findViewById(R.id.progressBar9);
+        progressBar9.setVisibility(View.GONE);
         tv_addF = findViewById(R.id.tv_addF);
         tv_addF.setVisibility(View.GONE);
 //        getAllUsers();
@@ -43,8 +52,17 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
         rcv_accept.setHasFixedSize(true);
         rcv_accept.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         getAFriends();
+
+        imgBtnAHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AcceptFriend1Activity.this, FriendActivity.class));
+                finish();
+            }
+        });
     }
     private void getAFriends(){
+        progressBar9.setVisibility(View.VISIBLE);
         //get lastId
         int lastId = 0;
         if(mAFriends.size() == 0){
@@ -59,12 +77,15 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 204){
                         mAFriends = response.body().getData();
-                        Toast.makeText(AcceptFriend1Activity.this, "Get list friend success"+mAFriends, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(AcceptFriend1Activity.this, "Get list friend success"+mAFriends, Toast.LENGTH_SHORT).show();
                         adt.changList(mAFriends);
+                        progressBar9.setVisibility(View.GONE);
                     }else if(response.body().getCode() == 200){
                         tv_addF.setVisibility(View.VISIBLE);
+                        progressBar9.setVisibility(View.GONE);
                     }else{
                         Toast.makeText(AcceptFriend1Activity.this, "Get list friend fail", Toast.LENGTH_SHORT).show();
+                        progressBar9.setVisibility(View.GONE);
                     }
 
                 }else if(response.code() == 404){
@@ -73,8 +94,15 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(AcceptFriend1Activity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(AcceptFriend1Activity.this, MainActivity.class));
+                        progressBar9.setVisibility(View.GONE);
+                        finish();
+
                     }catch(IOException e){
                         Toast.makeText(AcceptFriend1Activity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(AcceptFriend1Activity.this, MainActivity.class));
+                        progressBar9.setVisibility(View.GONE);
+                        finish();
                     }
 
                 }else if(response.code() == 400){
@@ -99,6 +127,7 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
     }
     @Override
     public void ButtonAcceptFriendClick(Friend f) {
+        progressBar9.setVisibility(View.VISIBLE);
         ApiHeaderService.apiService.AcceptOrDeleteFriend(f.getId()).enqueue(new Callback<StatusCode204VerifyOTP>() {
             @Override
             public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response) {
@@ -107,6 +136,7 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                         Toast.makeText(AcceptFriend1Activity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         mAFriends = new ArrayList<>();
                         getAFriends();
+                        progressBar9.setVisibility(View.GONE);
                         finish();
                         startActivity(getIntent());
                     }
@@ -117,8 +147,14 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(AcceptFriend1Activity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(AcceptFriend1Activity.this, MainActivity.class));
+                        progressBar9.setVisibility(View.GONE);
+                        finish();
                     }catch(IOException e){
                         Toast.makeText(AcceptFriend1Activity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(AcceptFriend1Activity.this, MainActivity.class));
+                        progressBar9.setVisibility(View.GONE);
+                        finish();
                     }
 
                 }else if(response.code() == 400){
@@ -127,11 +163,14 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(AcceptFriend1Activity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        progressBar9.setVisibility(View.GONE);
                     }catch(IOException e){
                         Toast.makeText(AcceptFriend1Activity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar9.setVisibility(View.GONE);
                     }
                 }else{
                     Toast.makeText(AcceptFriend1Activity.this, "Get list friend fail", Toast.LENGTH_SHORT).show();
+                    progressBar9.setVisibility(View.GONE);
                 }
             }
 
@@ -144,6 +183,7 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
 
     @Override
     public void ButtonDenyFriendClick(Friend f) {
+        progressBar9.setVisibility(View.VISIBLE);
         ApiHeaderService.apiService.denyFriend(f.getId()).enqueue(new Callback<StatusCode204VerifyOTP>() {
             @Override
             public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response) {
@@ -152,6 +192,7 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                         Toast.makeText(AcceptFriend1Activity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         mAFriends = new ArrayList<>();
                         getAFriends();
+                        progressBar9.setVisibility(View.GONE);
                         finish();
                         startActivity(getIntent());
                     }
@@ -162,8 +203,14 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(AcceptFriend1Activity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(AcceptFriend1Activity.this, MainActivity.class));
+                        progressBar9.setVisibility(View.GONE);
+                        finish();
                     }catch(IOException e){
                         Toast.makeText(AcceptFriend1Activity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(AcceptFriend1Activity.this, MainActivity.class));
+                        progressBar9.setVisibility(View.GONE);
+                        finish();
                     }
 
                 }else if(response.code() == 400){
@@ -172,11 +219,14 @@ public class AcceptFriend1Activity extends AppCompatActivity implements OnClickA
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(AcceptFriend1Activity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        progressBar9.setVisibility(View.GONE);
                     }catch(IOException e){
                         Toast.makeText(AcceptFriend1Activity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar9.setVisibility(View.GONE);
                     }
                 }else{
                     Toast.makeText(AcceptFriend1Activity.this, "Get list friend fail", Toast.LENGTH_SHORT).show();
+                    progressBar9.setVisibility(View.GONE);
                 }
             }
 

@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.zolo_frondend_mobile.MainActivity;
 import com.example.zolo_frondend_mobile.R;
 import com.example.zolo_frondend_mobile.SignUp_GUI;
 import com.example.zolo_frondend_mobile.api.ApiHeaderService;
@@ -31,11 +36,17 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
     List<Friend> mNotFriends = new ArrayList<>();
     List<Friend> mFriends = new ArrayList<>();
     List<Friend> mAllUsers = new ArrayList<>();
+    ImageButton imgbtnNFHome;
+
+    ProgressBar progressBar8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_not_friend);
         rcv_notF = findViewById(R.id.rcv_notF);
+        imgbtnNFHome = findViewById(R.id.imgbtnNFHome);
+        progressBar8 = findViewById(R.id.progressBar8);
+        progressBar8.setVisibility(View.GONE);
 //        getAllUsers();
         adt = new CustomAdapterNotFriend(mNotFriends, this);
         rcv_notF.setAdapter(adt);
@@ -44,10 +55,20 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
 
         getNotFriends();
 
+        imgbtnNFHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NotFriendActivity.this,FriendActivity.class));
+                finish();
+            }
+        });
+
     }
 
 
+
     private void getNotFriends(){
+        progressBar8.setVisibility(View.VISIBLE);
         //get lastId
         int lastId = 0;
         if(mNotFriends.size() == 0){
@@ -62,12 +83,13 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 204){
                         mFriends = response.body().getData();
-                        Toast.makeText(NotFriendActivity.this, "Get list friend success"+mFriends, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(NotFriendActivity.this, "Get list friend success"+mFriends, Toast.LENGTH_SHORT).show();
                         //dua du lieu tat car user vao
                         getAllUsers();
 
                     }else{
                         Toast.makeText(NotFriendActivity.this, "Get list friend fail", Toast.LENGTH_SHORT).show();
+                        progressBar8.setVisibility(View.GONE);
                     }
 
                 }else if(response.code() == 404){
@@ -76,8 +98,14 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(NotFriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(NotFriendActivity.this, MainActivity.class));
+                        progressBar8.setVisibility(View.GONE);
+                        finish();
                     }catch(IOException e){
                         Toast.makeText(NotFriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NotFriendActivity.this, MainActivity.class));
+                        progressBar8.setVisibility(View.GONE);
+                        finish();
                     }
 
                 }else if(response.code() == 400){
@@ -111,7 +139,7 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
                         mNotFriends = new ArrayList<>();
                         mAllUsers = response.body().getData();
 //                        adt.changList(mNotFriends);
-                        Toast.makeText(NotFriendActivity.this, "bbbbbbb"+mAllUsers, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(NotFriendActivity.this, "bbbbbbb"+mAllUsers, Toast.LENGTH_SHORT).show();
                         //xu ly de lay cac listNot friend
                         for(Friend user : mAllUsers){
                             Boolean isFriend = false;
@@ -125,6 +153,7 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
                             }
                         }
                         adt.changList(mNotFriends);
+                        progressBar8.setVisibility(View.GONE);
                     }else{
                         Toast.makeText(NotFriendActivity.this, "Get Users Fail", Toast.LENGTH_SHORT).show();
                     }
@@ -140,19 +169,23 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
 
     @Override
     public void ButtonAddFriendClick(Friend f) {
+        progressBar8.setVisibility(View.VISIBLE);
         ApiHeaderService.apiService.inviteFriend(f.getId()).enqueue(new Callback<StatusCode204VerifyOTP>() {
             @Override
             public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response) {
                 if(response.isSuccessful()){
                     Toast.makeText(NotFriendActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar8.setVisibility(View.GONE);
                 }else if(response.code() == 400){
                     Gson gson = new GsonBuilder().create();
                     StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(NotFriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        progressBar8.setVisibility(View.GONE);
                     }catch(IOException e){
                         Toast.makeText(NotFriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar8.setVisibility(View.GONE);
                     }
                 }else if(response.code() == 404){
                     Gson gson = new GsonBuilder().create();
@@ -160,8 +193,14 @@ public class NotFriendActivity extends AppCompatActivity implements OnClickNotFr
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(NotFriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(NotFriendActivity.this, MainActivity.class));
+                        progressBar8.setVisibility(View.GONE);
+                        finish();
                     }catch(IOException e){
                         Toast.makeText(NotFriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NotFriendActivity.this, MainActivity.class));
+                        progressBar8.setVisibility(View.GONE);
+                        finish();
                     }
                 }else{
 

@@ -11,13 +11,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zolo_frondend_mobile.MainActivity;
 import com.example.zolo_frondend_mobile.Profile_GUI;
 import com.example.zolo_frondend_mobile.R;
 import com.example.zolo_frondend_mobile.SignUp_GUI;
 import com.example.zolo_frondend_mobile.api.ApiHeaderService;
+import com.example.zolo_frondend_mobile.api.ApiService;
+import com.example.zolo_frondend_mobile.chat.MessageActivity;
+import com.example.zolo_frondend_mobile.chat.StatusGetOneGroup;
+import com.example.zolo_frondend_mobile.chat.StatusGroupSingle;
 import com.example.zolo_frondend_mobile.entity.GetFriend;
 import com.example.zolo_frondend_mobile.entity.GetGroup;
 import com.example.zolo_frondend_mobile.entity.StatusCode204VerifyOTP;
@@ -55,6 +61,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
 
     Button btnCreateGroup, btnCancer;
     TextView edtNameGroup;
+    ProgressBar progressBar7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +78,8 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
         btnCancer = findViewById(R.id.btnCancer);
         imgAdd = findViewById(R.id.imgAdd);
         edtNameGroup = findViewById(R.id.edtNameGroup);
+        progressBar7 = findViewById(R.id.progressBar7);
+        progressBar7.setVisibility(View.GONE);
 
         rcv_member.setVisibility(View.GONE);
         btnCreateGroup.setVisibility(View.GONE);
@@ -99,6 +108,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
         btnCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar7.setVisibility(View.VISIBLE);
                 ApiHeaderService.apiService.CreatGroup(mAddMem,edtNameGroup.getText().toString().trim()).enqueue(new Callback<StatusCode204VerifyOTP>() {
                     @Override
                     public void onResponse(Call<StatusCode204VerifyOTP> call, Response<StatusCode204VerifyOTP> response) {
@@ -108,8 +118,11 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                                 mGroups = new ArrayList<>();
                                 getGroups();
                                 mAddMem = new ArrayList<>();
+                                progressBar7.setVisibility(View.GONE);
                                 finish();
                                 startActivity(getIntent());
+                                rcv_group.setVisibility(View.VISIBLE);
+                                imgAdd.setVisibility(View.VISIBLE);
                             }
 
                         }else if(response.code() == 404){
@@ -118,8 +131,14 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                             try{
                                 mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                                 Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                                progressBar7.setVisibility(View.GONE);
+                                finish();
                             }catch(IOException e){
                                 Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                                progressBar7.setVisibility(View.GONE);
+                                finish();
                             }
 
                         }else if(response.code() == 400){
@@ -128,11 +147,14 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                             try{
                                 mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                                 Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                progressBar7.setVisibility(View.GONE);
                             }catch(IOException e){
                                 Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                progressBar7.setVisibility(View.GONE);
                             }
                         }else{
                             Toast.makeText(FriendActivity.this, "create group fail", Toast.LENGTH_SHORT).show();
+                            progressBar7.setVisibility(View.GONE);
                         }
                     }
 
@@ -154,6 +176,8 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                 btnCreateGroup.setVisibility(View.GONE);
                 btnCancer.setVisibility(View.GONE);
                 edtNameGroup.setVisibility(View.GONE);
+                rcv_group.setVisibility(View.VISIBLE);
+                imgAdd.setVisibility(View.VISIBLE);
             }
         });
 
@@ -165,6 +189,8 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                 btnCancer.setVisibility(View.VISIBLE);
                 btnCreateGroup.setVisibility(View.VISIBLE);
                 getMembers();
+                rcv_group.setVisibility(View.GONE);
+                imgAdd.setVisibility(View.GONE);
             }
         });
 
@@ -172,6 +198,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FriendActivity.this, Profile_GUI.class));
+                finish();
             }
         });
 
@@ -179,19 +206,21 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FriendActivity.this, NotFriendActivity.class));
-
+                finish();
             }
         });
         imgbtnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FriendActivity.this, AcceptFriend1Activity.class));
+                finish();
             }
         });
     }
 
 
     private void getGroups() {
+        progressBar7.setVisibility(View.VISIBLE);
         //get lastId
         int lastId = 0;
         if(mGroups.size() == 0){
@@ -206,10 +235,12 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 200){
                         mGroups = response.body().getData();
-                        Toast.makeText(FriendActivity.this, "Get list group success", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(FriendActivity.this, "Get list group success", Toast.LENGTH_SHORT).show();
                         adtGroup.changList(mGroups);
+                        progressBar7.setVisibility(View.GONE);
                     }else{
                         Toast.makeText(FriendActivity.this, "Get list group fail", Toast.LENGTH_SHORT).show();
+                        progressBar7.setVisibility(View.GONE);
                     }
 
                 }else if(response.code() == 404){
@@ -218,8 +249,14 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                        progressBar7.setVisibility(View.GONE);
+                        finish();
                     }catch(IOException e){
                         Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                        progressBar7.setVisibility(View.GONE);
+                        finish();
                     }
 
                 }else if(response.code() == 400){
@@ -228,8 +265,10 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        progressBar7.setVisibility(View.GONE);
                     }catch(IOException e){
                         Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar7.setVisibility(View.GONE);
                     }
                 }else{
 
@@ -259,7 +298,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 204){
                         mFriends = response.body().getData();
-                        Toast.makeText(FriendActivity.this, "Get list friend success", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(FriendActivity.this, "Get list friend success", Toast.LENGTH_SHORT).show();
                         adt.changList(mFriends);
                     }else{
                         Toast.makeText(FriendActivity.this, "Get list friend fail", Toast.LENGTH_SHORT).show();
@@ -304,14 +343,127 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
     }
 
     @Override
+    public void buttonTextClick(Friend f) {
+        progressBar7.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(FriendActivity.this, MessageActivity.class);
+        intent.putExtra("friend", f);
+        ApiHeaderService.apiService.getGroupSingle(f.getId()).enqueue(new Callback<StatusGroupSingle>() {
+            @Override
+            public void onResponse(Call<StatusGroupSingle> call, Response<StatusGroupSingle> response) {
+                if(response.isSuccessful()){
+                    if(response.body().getCode() == 200){
+                        Integer groupId = response.body().getData().getId();
+                        ApiHeaderService.apiService.getGroupById(groupId).enqueue(new Callback<StatusGetOneGroup>() {
+                            @Override
+                            public void onResponse(Call<StatusGetOneGroup> call, Response<StatusGetOneGroup> response) {
+                                if(response.isSuccessful()){
+                                    if(response.body().getCode() == 200){
+                                       Group gr = response.body().getData();
+                                       intent.putExtra("group",gr);
+                                        startActivity(intent);
+                                        progressBar7.setVisibility(View.GONE);
+                                    }else{
+                                        Toast.makeText(FriendActivity.this, "Get member friend fail", Toast.LENGTH_SHORT).show();
+                                        progressBar7.setVisibility(View.GONE);
+                                    }
+                                }else if(response.code() == 404){
+                                    Gson gson = new GsonBuilder().create();
+                                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                                    try{
+                                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                                        Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                                        progressBar7.setVisibility(View.GONE);
+                                        finish();
+                                    }catch(IOException e){
+                                        Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                                        progressBar7.setVisibility(View.GONE);
+                                        finish();
+                                    }
+
+                                }else if(response.code() == 400){
+                                    Gson gson = new GsonBuilder().create();
+                                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                                    try{
+                                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                                        Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                        progressBar7.setVisibility(View.GONE);
+                                    }catch(IOException e){
+                                        Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        progressBar7.setVisibility(View.GONE);
+                                    }
+                                }else{
+                                    progressBar7.setVisibility(View.GONE);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<StatusGetOneGroup> call, Throwable t) {
+
+                            }
+                        });
+                    }else{
+                        Toast.makeText(FriendActivity.this, "Get member friend fail", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else if(response.code() == 404){
+                    Gson gson = new GsonBuilder().create();
+                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                    try{
+                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                        Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                        progressBar7.setVisibility(View.GONE);
+                        finish();
+                    }catch(IOException e){
+                        Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                        progressBar7.setVisibility(View.GONE);
+                        finish();
+                    }
+
+                }else if(response.code() == 400){
+                    Gson gson = new GsonBuilder().create();
+                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                    try{
+                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                        Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        progressBar7.setVisibility(View.GONE);
+                    }catch(IOException e){
+                        Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar7.setVisibility(View.GONE);
+                    }
+                }else{
+                    progressBar7.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StatusGroupSingle> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    @Override
     public void ClickItem(Group gr) {
         Intent intent = new Intent(FriendActivity.this, ProfileGroup_GUI.class);
         intent.putExtra("group",gr);
         startActivity(intent);
     }
 
+    @Override
+    public void ClickButtonText(Group gr) {
+        Intent intent = new Intent(FriendActivity.this, MessageActivity.class);
+        intent.putExtra("group",gr);
+        startActivity(intent);
+    }
+
 
     private void getMembers(){
+        progressBar7.setVisibility(View.VISIBLE);
         //get lastId
         int lastId = 0;
         if(mFriends.size() == 0){
@@ -326,10 +478,12 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 204){
                         mMembers = response.body().getData();
-                        Toast.makeText(FriendActivity.this, "Get member friend success", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(FriendActivity.this, "Get member friend success", Toast.LENGTH_SHORT).show();
                         adtMember.changList(mMembers);
+                        progressBar7.setVisibility(View.GONE);
                     }else{
                         Toast.makeText(FriendActivity.this, "Get member friend fail", Toast.LENGTH_SHORT).show();
+                        progressBar7.setVisibility(View.GONE);
                     }
 
                 }else if(response.code() == 404){
@@ -338,8 +492,12 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(FriendActivity.this, MainActivity.class));
+                        progressBar7.setVisibility(View.GONE);
+                        finish();
                     }catch(IOException e){
                         Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar7.setVisibility(View.GONE);
                     }
 
                 }else if(response.code() == 400){
@@ -348,8 +506,10 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                     try{
                         mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                         Toast.makeText(FriendActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                        progressBar7.setVisibility(View.GONE);
                     }catch(IOException e){
                         Toast.makeText(FriendActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar7.setVisibility(View.GONE);
                     }
                 }else{
 

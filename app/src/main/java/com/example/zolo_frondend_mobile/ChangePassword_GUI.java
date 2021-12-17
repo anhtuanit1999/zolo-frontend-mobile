@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.zolo_frondend_mobile.api.ApiHeaderService;
+import com.example.zolo_frondend_mobile.danhsach.FriendActivity;
 import com.example.zolo_frondend_mobile.entity.StatusCode204VerifyOTP;
 import com.example.zolo_frondend_mobile.utils.JWTUtils;
 import com.google.gson.Gson;
@@ -25,22 +27,27 @@ import retrofit2.Response;
 
 public class ChangePassword_GUI extends AppCompatActivity {
 
-    EditText edtNewPassword, edtOTP;
+    EditText edtNewPassword;
     Button btnChangePass;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password_gui);
         edtNewPassword = findViewById(R.id.edtNewPass);
         btnChangePass = findViewById(R.id.btnChangePass);
-        edtOTP = findViewById(R.id.edtOTP);
+//        edtOTP = findViewById(R.id.edtOTP);
+        progressBar = findViewById(R.id.progressBar3);
+        progressBar.setVisibility(View.GONE);
 
         btnChangePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+
                 Map<String, String> changes = new HashMap<>();
                 changes.put("email", JWTUtils.EMAIL);
-                changes.put("otp", edtOTP.getText().toString());
+//                changes.put("otp", edtOTP.getText().toString());
                 changes.put("password", edtNewPassword.getText().toString());
                 ApiHeaderService.apiService.getNewPassword(changes).enqueue(new Callback<StatusCode204VerifyOTP>() {
                     @Override
@@ -49,8 +56,11 @@ public class ChangePassword_GUI extends AppCompatActivity {
                             if(response.body().getCode() == 204){
                                 Toast.makeText(ChangePassword_GUI.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(ChangePassword_GUI.this, Profile_GUI.class));
+                                progressBar.setVisibility(View.GONE);
+                                finish();
                             }else if(response.body().getCode() == 401){
                                 Toast.makeText(ChangePassword_GUI.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         }else if(response.code() == 400){
                             Gson gson = new GsonBuilder().create();
@@ -58,8 +68,10 @@ public class ChangePassword_GUI extends AppCompatActivity {
                             try{
                                 mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                                 Toast.makeText(ChangePassword_GUI.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
                             }catch(IOException e){
                                 Toast.makeText(ChangePassword_GUI.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         }else if(response.code() == 401){
                             Gson gson = new GsonBuilder().create();
@@ -67,11 +79,20 @@ public class ChangePassword_GUI extends AppCompatActivity {
                             try{
                                 mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                                 Toast.makeText(ChangePassword_GUI.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(ChangePassword_GUI.this, MainActivity.class));
+                                progressBar.setVisibility(View.GONE);
+                                finish();
                             }catch(IOException e){
                                 Toast.makeText(ChangePassword_GUI.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(ChangePassword_GUI.this, MainActivity.class));
+                                progressBar.setVisibility(View.GONE);
+                                finish();
                             }
                         }else{
                             Toast.makeText(ChangePassword_GUI.this, "Loi", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(ChangePassword_GUI.this, MainActivity.class));
+                            progressBar.setVisibility(View.GONE);
+                            finish();
                         }
                     }
 

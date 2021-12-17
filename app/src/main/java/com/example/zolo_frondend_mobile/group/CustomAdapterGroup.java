@@ -3,6 +3,7 @@ package com.example.zolo_frondend_mobile.group;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,10 +55,18 @@ public class CustomAdapterGroup extends RecyclerView.Adapter<CustomAdapterGroup.
         int position;
         ImageView imgGroup;
         TextView tvGName;
+        Button btnGText;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgGroup = itemView.findViewById(R.id.imgGroup);
             tvGName = itemView.findViewById(R.id.tvGName);
+            btnGText = itemView.findViewById(R.id.btnGText);
+            btnGText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickGroup.ClickButtonText(mGroup);
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

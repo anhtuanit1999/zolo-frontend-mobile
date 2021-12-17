@@ -3,6 +3,7 @@ package com.example.zolo_frondend_mobile.danhsach;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class CustomAdapterFriend extends RecyclerView.Adapter<CustomAdapterFrien
         holder.imgItem.setImageResource(R.drawable.tuong);
         holder.tvItemNickname.setText(friend.getNickname());
         holder.tvItemFullname.setText(friend.getFullName());
+        holder.btnItemText.setText("Text");
     }
 
     @Override
@@ -54,15 +56,23 @@ public class CustomAdapterFriend extends RecyclerView.Adapter<CustomAdapterFrien
         int position;
         ImageView imgItem;
         TextView tvItemNickname, tvItemFullname;
+        Button btnItemText;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgItem = itemView.findViewById(R.id.imgItem);
             tvItemNickname = itemView.findViewById(R.id.tvItemNickname);
             tvItemFullname = itemView.findViewById(R.id.tvItemFullname);
+            btnItemText = itemView.findViewById(R.id.btnItemText);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mOnClckFriend.clickItem(mFriend);
+                }
+            });
+            btnItemText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClckFriend.buttonTextClick(mFriend);
                 }
             });
         }

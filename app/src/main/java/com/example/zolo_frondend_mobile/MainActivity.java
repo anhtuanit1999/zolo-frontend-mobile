@@ -24,6 +24,9 @@ import com.example.zolo_frondend_mobile.model.UserMockAPI;
 import com.example.zolo_frondend_mobile.utils.JWTUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
@@ -38,19 +41,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int RC_SIGN_IN = 0;
+    private static int RC_SIGN_IN = 0;
     Button btnDangki, btnDangnhap, btnVerifyOTP;
     TextView txt_QuenMatKhau;
     EditText edtEmail, edtPassword;
     ProgressBar proDN;
     List<UserMockAPI> list = new ArrayList<>();
+    GoogleSignInClient mGoogleSignInClient;
+    SignInButton signInButton;
+
     // thieu khai bao a`
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnDangki = findViewById(R.id.btnDangki);
-
+        signInButton = findViewById(R.id.sign_in_button);
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         btnDangnhap = findViewById(R.id.btnDangNhap);
@@ -58,6 +64,21 @@ public class MainActivity extends AppCompatActivity {
         btnVerifyOTP = findViewById(R.id.btnVerifyOTP);
         txt_QuenMatKhau= findViewById(R.id.txt_QuenMatKhau);
         proDN= findViewById(R.id.proDN);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
+        });
 
 //        proDN.getProgressDrawable().setColorFilter(
 //                Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -71,9 +92,11 @@ public class MainActivity extends AppCompatActivity {
         txt_QuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                proDN.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(MainActivity.this, ForgorPassWord_GUI.class);
                 intent.putExtra("email",edtEmail.getText().toString());
                 startActivity(intent);
+                proDN.setVisibility(View.GONE);
 //                Toast.makeText(MainActivity.this, "aaaaaa", Toast.LENGTH_SHORT).show();
 //                ApiService.apiService.getForgotPassWordinMain(edtEmail.getText().toString()).enqueue(new Callback<StatusCode204VerifyOTP>() {
 //                    @Override
@@ -110,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
         btnVerifyOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                proDN.setVisibility(View.VISIBLE);
                 startActivity(new Intent(MainActivity.this, XacThuc_GUI.class));
+                proDN.setVisibility(View.GONE);
             }
         });
 
@@ -128,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<StatusCode200SignIn> call, Response<StatusCode200SignIn> response) {
                         if(response.isSuccessful()){
                             if(response.body().getCode() == 200 ){
-                                Toast.makeText(MainActivity.this, ""+response.body(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(MainActivity.this, ""+response.body(), Toast.LENGTH_SHORT).show();
                                 StatusCode200SignIn a = response.body();
                                 JWTUtils.TOKEN = a.getData().getJwt();
                                 JWTUtils.EMAIL = a.getData().getEmail();
@@ -193,7 +218,9 @@ public class MainActivity extends AppCompatActivity {
         btnDangki.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                proDN.setVisibility(View.VISIBLE);
                 startActivity(new Intent(MainActivity.this, SignUp_GUI.class));
+                proDN.setVisibility(View.GONE);
             }
         });
     }
@@ -201,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
@@ -213,10 +239,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleSignInResult(Task<GoogleSignInAccount> task) {
         try {
+            proDN.setVisibility(View.VISIBLE);
             GoogleSignInAccount account = task.getResult(ApiException.class);
-
-            Intent intent  = new Intent(MainActivity.this, XemDSBanBeActivity.class);
+            Intent intent  = new Intent(MainActivity.this, MapActivity.class);
             startActivity(intent);
+            proDN.setVisibility(View.GONE);
             // Signed in successfully, show authenticated UI.
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
@@ -224,4 +251,6 @@ public class MainActivity extends AppCompatActivity {
             Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
         }
     }
+
+
 }

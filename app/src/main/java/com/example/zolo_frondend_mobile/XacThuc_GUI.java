@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import retrofit2.Response;
 public class XacThuc_GUI extends AppCompatActivity {
     EditText edtEmail, edtOtp;
     TextView tvDangNhap;
+    ProgressBar progressBar6;
     Button btnVerify, btnResendOTP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,15 @@ public class XacThuc_GUI extends AppCompatActivity {
         btnVerify = findViewById(R.id.btnVerify);
         btnResendOTP = findViewById(R.id.btnResendOTP);
         tvDangNhap = findViewById(R.id.tvDangNhap);
+        progressBar6 = findViewById(R.id.progressBar6);
+        progressBar6.setVisibility(View.GONE);
 
         tvDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                progressBar6.setVisibility(View.VISIBLE);
                 startActivity(new Intent(XacThuc_GUI.this, MainActivity.class));
+                progressBar6.setVisibility(View.GONE);
             }
         });
 
@@ -54,6 +59,7 @@ public class XacThuc_GUI extends AppCompatActivity {
         btnResendOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar6.setVisibility(View.VISIBLE);
                 String email = edtEmail.getText().toString();
                 ApiService.apiService.getResendVerifyOTP(new ResendOTP(email)).enqueue(new Callback<StatusCode204VerifyOTP>() {
                     @Override
@@ -61,9 +67,11 @@ public class XacThuc_GUI extends AppCompatActivity {
                         if(response.isSuccessful()){
                             if(response.body().getCode() == 200){
                                 Toast.makeText(XacThuc_GUI.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(XacThuc_GUI.this, MainActivity.class));
+
+                                progressBar6.setVisibility(View.GONE);
                             }else if(response.body().getCode() != 200){
                                 Toast.makeText(XacThuc_GUI.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                progressBar6.setVisibility(View.GONE);
                             }
                         }else if(response.code() == 400){
                             Gson gson = new GsonBuilder().create();
@@ -71,11 +79,14 @@ public class XacThuc_GUI extends AppCompatActivity {
                             try{
                                 mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                                 Toast.makeText(XacThuc_GUI.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                progressBar6.setVisibility(View.GONE);
                             }catch(IOException e){
                                 Toast.makeText(XacThuc_GUI.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                progressBar6.setVisibility(View.GONE);
                             }
                         }else{
                             Toast.makeText(XacThuc_GUI.this, "Lỗi", Toast.LENGTH_SHORT).show();
+                            progressBar6.setVisibility(View.GONE);
                         }
                     }
 
@@ -90,6 +101,7 @@ public class XacThuc_GUI extends AppCompatActivity {
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar6.setVisibility(View.VISIBLE);
                 String email = edtEmail.getText().toString();
                 String otp = edtOtp.getText().toString();
 
@@ -100,12 +112,16 @@ public class XacThuc_GUI extends AppCompatActivity {
                             if(response.body().getCode() == 204){
                                 String mess = response.body().getMessage();
                                 Toast.makeText(XacThuc_GUI.this, ""+mess, Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(XacThuc_GUI.this, MainActivity.class));
+                                progressBar6.setVisibility(View.GONE);
                             }else if(response.body().getCode() != 204){
                                 String mess = response.body().getMessage();
                                 Toast.makeText(XacThuc_GUI.this, ""+mess, Toast.LENGTH_SHORT).show();
+                                progressBar6.setVisibility(View.GONE);
                             }
                             else{
                                 Toast.makeText(XacThuc_GUI.this, "Xác thực không thành công", Toast.LENGTH_SHORT).show();
+                                progressBar6.setVisibility(View.GONE);
                             }
                         }else if(response.code() == 400){
                                 Gson gson = new GsonBuilder().create();
@@ -113,11 +129,14 @@ public class XacThuc_GUI extends AppCompatActivity {
                                 try{
                                     mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
                                     Toast.makeText(XacThuc_GUI.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                                    progressBar6.setVisibility(View.GONE);
                                 }catch(IOException e){
                                     Toast.makeText(XacThuc_GUI.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressBar6.setVisibility(View.GONE);
                                 }
                         }else{
                             Toast.makeText(XacThuc_GUI.this, "Xác thực không thành công", Toast.LENGTH_SHORT).show();
+                            progressBar6.setVisibility(View.GONE);
                         }
                     }
 

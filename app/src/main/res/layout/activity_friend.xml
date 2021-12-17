@@ -70,49 +70,62 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_member"
-        android:layout_width="390dp"
-        android:layout_height="594dp"
+        android:layout_width="405dp"
+        android:layout_height="511dp"
         app:layout_constraintBottom_toBottomOf="@+id/rcv_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.777" />
+        app:layout_constraintTop_toBottomOf="@+id/edtNameGroup"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnCreateGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="157dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="12dp"
         android:text="Create Group"
-        app:layout_constraintBottom_toBottomOf="@+id/rcv_member"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rcv_member"
         app:layout_constraintTop_toTopOf="@+id/rcv_member"
         app:layout_constraintVertical_bias="0.978" />
 
     <Button
         android:id="@+id/btnCancer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="124dp"
+        android:layout_height="55dp"
         android:text="Cancer"
-        app:layout_constraintBottom_toBottomOf="@+id/rcv_member"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rcv_member"
-        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintHorizontal_bias="0.032"
         app:layout_constraintStart_toStartOf="@+id/rcv_member"
         app:layout_constraintTop_toTopOf="@+id/rcv_member"
-        app:layout_constraintVertical_bias="0.972" />
+        app:layout_constraintVertical_bias="0.98" />
 
     <EditText
         android:id="@+id/edtNameGroup"
-        android:layout_width="389dp"
-        android:layout_height="41dp"
+        android:layout_width="402dp"
+        android:layout_height="74dp"
+        android:background="#FFFFFF"
         android:ems="10"
         android:hint="Name Group"
         android:inputType="textPersonName"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/rcv_member"
         app:layout_constraintEnd_toEndOf="@+id/rcv_member"
-        app:layout_constraintStart_toStartOf="@+id/rcv_member" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/rcv_member"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar7"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="264dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

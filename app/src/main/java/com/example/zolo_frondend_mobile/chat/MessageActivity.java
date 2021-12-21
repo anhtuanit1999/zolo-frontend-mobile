@@ -1,5 +1,6 @@
 package com.example.zolo_frondend_mobile.chat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,8 +55,8 @@ public class MessageActivity extends AppCompatActivity {
     Group mGroup;
     Intent mIntent;
 
-    private String URL_SERVER = "https://zolo-backend.herokuapp.com/";
-//    private String URL_SERVER = "http://192.168.100.4:3000/";
+//    private String URL_SERVER = "https://zolo-backend.herokuapp.com/";
+    private String URL_SERVER = "http://192.168.100.4:3000/";
     private Socket mSocket;
     {
         try{
@@ -131,6 +132,16 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        recycler_vew.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!recycler_vew.canScrollVertically(-1)){
+//                    Toast.makeText(MessageActivity.this, "last", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         //set lai img va ten group hoac ban be
 
 
@@ -200,6 +211,7 @@ public class MessageActivity extends AppCompatActivity {
                         if(messageGet.getChatgroupId() == mGroup.getId()){
                             mChats.add(messageGet);
                             adt.changList(mChats);
+                            recycler_vew.scrollToPosition(mChats.size()-1);
                         }
 
                     } catch (JSONException e) {

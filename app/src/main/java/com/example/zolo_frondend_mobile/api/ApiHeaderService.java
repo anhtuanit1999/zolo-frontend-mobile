@@ -4,6 +4,7 @@ import com.example.zolo_frondend_mobile.chat.StatusChat;
 import com.example.zolo_frondend_mobile.chat.StatusGetOneGroup;
 import com.example.zolo_frondend_mobile.chat.StatusGroupSingle;
 import com.example.zolo_frondend_mobile.chat.StatusMessageGet;
+import com.example.zolo_frondend_mobile.chat.StatusMessageGetOne;
 import com.example.zolo_frondend_mobile.danhsach.Friend;
 import com.example.zolo_frondend_mobile.entity.GetFriend;
 import com.example.zolo_frondend_mobile.entity.GetGroup;
@@ -111,6 +112,12 @@ public interface ApiHeaderService {
     @POST("group/getgroupid")
     Call<StatusGetOneGroup> getGroupById(@Field("groupId") int groupId);
 
+    @FormUrlEncoded
+    @POST("message/getlastid")
+    Call<StatusMessageGet> getLastMessId(@Field("chatgroupId") int groupId);
 
+    @FormUrlEncoded
+    @POST("message/getminid")
+    Call<StatusMessageGet> getMinMessId(@Field("chatgroupId") int groupId);
 
 }

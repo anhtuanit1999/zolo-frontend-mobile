@@ -47,6 +47,9 @@ public class MessageActivity extends AppCompatActivity {
     ImageView imgMess;
     TextView tvNameMess;
     EditText textsend;
+    Integer lastId = 0;
+    Integer minMessId = 0;
+    Boolean isScroll = false;
 
     MessageAdapter adt;
     public List<MessageGet> mChats = new ArrayList<>();
@@ -87,6 +90,8 @@ public class MessageActivity extends AppCompatActivity {
 //        adt = new MessageAdapter(mChats);
 //        recycler_vew.setAdapter(adt);
         recycler_vew.setHasFixedSize(true);
+        adt = new MessageAdapter(mChats);
+        recycler_vew.setAdapter(adt);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recycler_vew.setLayoutManager(linearLayoutManager);
@@ -124,7 +129,7 @@ public class MessageActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     String json = gson.toJson(a);
                     SaveMess(mGroup, textsend);
-                    recycler_vew.scrollToPosition(mChats.size()-1);
+//                    recycler_vew.scrollToPosition(mChats.size()-1);
                     mSocket.emit("chat message", json);
                 }
                 textsend.setText("");
@@ -136,7 +141,15 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recycler_vew.canScrollVertically(-1)){
+                if(isScroll){
+                    getMinId();
+                    Log.e("TAG", "onScrollStateChanged: " + minMessId );
+                    if(!recycler_vew.canScrollVertically(-1)){
+                        if(mChats.get(0).getId() != minMessId){
+                            readMessage();
+                            recycler_vew.scrollToPosition(mChats.size()-1);
+                        }
+                }
 //                    Toast.makeText(MessageActivity.this, "last", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -198,6 +211,7 @@ public class MessageActivity extends AppCompatActivity {
                     String data = (String) args[0]; //{"chatgroupId":57,"content":"2","createAt":123456,"userId":356}
 //                    Log.v("Hoang",data);
                     try {
+
                         JSONObject obj = new JSONObject(data);
                         String content = obj.getString("mess");
                         Integer groupId = obj.getInt("chatgroupId");
@@ -211,7 +225,10 @@ public class MessageActivity extends AppCompatActivity {
                         if(messageGet.getChatgroupId() == mGroup.getId()){
                             mChats.add(messageGet);
                             adt.changList(mChats);
-                            recycler_vew.scrollToPosition(mChats.size()-1);
+//                            if(isScroll){
+                                recycler_vew.scrollToPosition(mChats.size()-1);
+//                            }
+
                         }
 
                     } catch (JSONException e) {
@@ -223,30 +240,49 @@ public class MessageActivity extends AppCompatActivity {
     };
 
     private void readMessage(){
-        mChats = new ArrayList<>();
-        ApiHeaderService.apiService.getAllMessage(mGroup.getId(),100,0).enqueue(new Callback<StatusMessageGet>() {
+
+        if(lastId == 0){
+            getLastId();
+        }else{
+            if(mChats.size() != 0 ){
+                lastId = mChats.get(0).getId();
+            }
+        }
+        Log.e("TAG", "readMessage: "+lastId );
+        ApiHeaderService.apiService.getAllMessage(mGroup.getId(),10,lastId).enqueue(new Callback<StatusMessageGet>() {
             @Override
             public void onResponse(Call<StatusMessageGet> call, Response<StatusMessageGet> response) {
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 200){
-//                        List<MessageGet> messageGets = new ArrayList<>();
-                        mChats = response.body().getData();
-                        Toast.makeText(MessageActivity.this, "Get chat group success "+mChats, Toast.LENGTH_SHORT).show();
+                        if(response.body().getData().size() != 0){
+                            isScroll = true;
+                            //                        List<MessageGet> messageGets = new ArrayList<>();
+                            List<MessageGet> chats = new ArrayList<>();
+                            chats = response.body().getData();
+//                        mChats = response.body().getData();
+                            for (MessageGet chat: mChats) {
+                                chats.add(chat);
+                            }
+                            mChats = new ArrayList<>();
+                            mChats = chats;
+//                        Toast.makeText(MessageActivity.this, "Get chat group success "+mChats, Toast.LENGTH_SHORT).show();
 //                        Log.d("Hoang", "onResponse: "+mChats);
 //                        Log.d("Hoang1", "onResponse: "+ JWTUtils.USER_ZOLO.getId());
 //                        sortDESC(messageGets);
-                        //giam dan
-                        Collections.sort(mChats, new Comparator<MessageGet>() {
-                            @Override
-                            public int compare(MessageGet o1, MessageGet o2) {
-                                return o1.getCreateAt().compareTo(o2.getCreateAt());
-                            }
-                        });
+                            //giam dan
+                            Collections.sort(mChats, new Comparator<MessageGet>() {
+                                @Override
+                                public int compare(MessageGet o1, MessageGet o2) {
+                                    return o1.getCreateAt().compareTo(o2.getCreateAt());
+                                }
+                            });
 
-                        adt = new MessageAdapter(mChats);
-                        recycler_vew.setAdapter(adt);
-                        adt.changList(mChats);
-                        recycler_vew.scrollToPosition(mChats.size()-1);
+                            adt = new MessageAdapter(mChats);
+                            recycler_vew.setAdapter(adt);
+                            adt.changList(mChats);
+//                        recycler_vew.scrollToPosition(mChats.size()-1);
+                        }
+
                     }else{
                         Toast.makeText(MessageActivity.this, "Get chat group fail", Toast.LENGTH_SHORT).show();
                     }
@@ -302,5 +338,99 @@ public class MessageActivity extends AppCompatActivity {
         MessageGet temp = a;
         a = b;
         b = temp;
+    }
+
+    private void getLastId(){
+
+        ApiHeaderService.apiService.getLastMessId(mGroup.getId()).enqueue(new Callback<StatusMessageGet>() {
+            @Override
+            public void onResponse(Call<StatusMessageGet> call, Response<StatusMessageGet> response) {
+                if(response.isSuccessful()){
+                    if(response.body().getCode() == 200){
+                        if(response.body().getData().size() == 0){
+
+                        }else{
+                            Toast.makeText(MessageActivity.this, "getLastId thanh cong", Toast.LENGTH_SHORT).show();
+                            lastId = response.body().getData().get(0).getId();
+                        }
+                    }else{
+                        Toast.makeText(MessageActivity.this, "getLastId  fail", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else if(response.code() == 404){
+
+                    Gson gson = new GsonBuilder().create();
+                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                    try{
+                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                        Toast.makeText(MessageActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                    }catch(IOException e){
+                        Toast.makeText(MessageActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }else if(response.code() == 400){
+                    Gson gson = new GsonBuilder().create();
+                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                    try{
+                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                        Toast.makeText(MessageActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                    }catch(IOException e){
+                        Toast.makeText(MessageActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StatusMessageGet> call, Throwable t) {
+
+            }
+        });
+    }
+    private void getMinId(){
+
+        ApiHeaderService.apiService.getMinMessId(mGroup.getId()).enqueue(new Callback<StatusMessageGet>() {
+            @Override
+            public void onResponse(Call<StatusMessageGet> call, Response<StatusMessageGet> response) {
+                if(response.isSuccessful()){
+                    if(response.body().getCode() == 200){
+                        if(response.body().getData().size() != 0){
+                            Toast.makeText(MessageActivity.this, "get min thanh cong " + minMessId, Toast.LENGTH_SHORT).show();
+                            minMessId = response.body().getData().get(0).getId();
+                        }
+                    }else{
+                        Toast.makeText(MessageActivity.this, "get min  fail", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else if(response.code() == 404){
+                    Gson gson = new GsonBuilder().create();
+                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                    try{
+                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                        Toast.makeText(MessageActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                    }catch(IOException e){
+                        Toast.makeText(MessageActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }else if(response.code() == 400){
+                    Gson gson = new GsonBuilder().create();
+                    StatusCode204VerifyOTP mError = new StatusCode204VerifyOTP();
+                    try{
+                        mError= gson.fromJson(response.errorBody().string(),StatusCode204VerifyOTP.class);
+                        Toast.makeText(MessageActivity.this, mError.getMessage(), Toast.LENGTH_LONG).show();
+                    }catch(IOException e){
+                        Toast.makeText(MessageActivity.this, "err: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StatusMessageGet> call, Throwable t) {
+
+            }
+        });
     }
 }

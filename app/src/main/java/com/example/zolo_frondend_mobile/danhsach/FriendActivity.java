@@ -63,6 +63,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
     TextView edtNameGroup;
     ProgressBar progressBar7;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

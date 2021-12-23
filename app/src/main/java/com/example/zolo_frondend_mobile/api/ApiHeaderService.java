@@ -139,4 +139,8 @@ public interface ApiHeaderService {
     @POST("file")
     Call<StatusFileS3> sendFileS3(@Part MultipartBody.Part file);
 
+    @FormUrlEncoded
+    @POST("group/add")
+    Call<StatusCode204VerifyOTP> addMemGroup(@Field("idFriends") List<Long> idFriends, @Field("groupId") Integer groupId);
+
 }

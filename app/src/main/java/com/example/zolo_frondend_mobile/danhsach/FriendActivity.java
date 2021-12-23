@@ -451,6 +451,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
     public void ClickItem(Group gr) {
         Intent intent = new Intent(FriendActivity.this, ProfileGroup_GUI.class);
         intent.putExtra("group",gr);
+        finish();
         startActivity(intent);
     }
 

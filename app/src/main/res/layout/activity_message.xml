@@ -112,4 +112,15 @@
         app:layout_constraintStart_toEndOf="@+id/imgMessa"
         app:layout_constraintTop_toTopOf="@+id/view9" />
 
+    <ImageButton
+        android:id="@+id/btnSelectImage"
+        android:layout_width="111dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="288dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.546"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/footer" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,13 @@
 package com.example.zolo_frondend_mobile.api;
 
 import com.example.zolo_frondend_mobile.chat.StatusChat;
+import com.example.zolo_frondend_mobile.chat.StatusFileS3;
 import com.example.zolo_frondend_mobile.chat.StatusGetOneGroup;
 import com.example.zolo_frondend_mobile.chat.StatusGroupSingle;
 import com.example.zolo_frondend_mobile.chat.StatusMessageGet;
 import com.example.zolo_frondend_mobile.chat.StatusMessageGetOne;
 import com.example.zolo_frondend_mobile.danhsach.Friend;
+import com.example.zolo_frondend_mobile.danhsach.Status200AddMember;
 import com.example.zolo_frondend_mobile.entity.GetFriend;
 import com.example.zolo_frondend_mobile.entity.GetGroup;
 import com.example.zolo_frondend_mobile.entity.StatusCode204VerifyOTP;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.Interceptor;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -28,7 +31,9 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface ApiHeaderService {
 
@@ -119,5 +124,19 @@ public interface ApiHeaderService {
     @FormUrlEncoded
     @POST("message/getminid")
     Call<StatusMessageGet> getMinMessId(@Field("chatgroupId") int groupId);
+
+    @FormUrlEncoded
+    @POST("group/delete")
+    Call<Status200AddMember> deleteMemberGroup(@Field("groupId") int groupId,
+                                            @Field("idFriends") Integer idFriends);
+
+    @FormUrlEncoded
+    @POST("group/deletegroup")
+    Call<StatusCode204VerifyOTP> deleteGroup(@Field("groupId") int groupId);
+
+
+    @Multipart
+    @POST("file")
+    Call<StatusFileS3> sendFileS3(@Part MultipartBody.Part file);
 
 }

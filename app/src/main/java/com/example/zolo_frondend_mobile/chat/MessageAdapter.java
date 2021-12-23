@@ -1,5 +1,7 @@
 package com.example.zolo_frondend_mobile.chat;
 
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.zolo_frondend_mobile.R;
 import com.example.zolo_frondend_mobile.danhsach.Friend;
 import com.example.zolo_frondend_mobile.danhsach.OnClickAddFriend;
@@ -25,13 +28,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     List<MessageGet> mChats;
     OnClickAddFriend mAddFriend;
+    OnClickMessage mOnClickMessage;
     private String imageurl;
     private Integer position1;
 
-    public MessageAdapter(List<MessageGet> friends) {
-        mChats = friends;
-//        mAddFriend = onClickNotFriend;
-//        imageurl=  imageurl1;
+    public MessageAdapter(List<MessageGet> chats, OnClickMessage onClickMessage) {
+        mChats = chats;
+        mOnClickMessage = onClickMessage;
     }
 
     @NonNull
@@ -50,15 +53,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
         MessageGet chat = mChats.get(position);
-        holder.show_message.setText(chat.getContent());
+        holder.img_message.setVisibility(View.GONE);
         holder.tv_Name_text.setText(chat.getUser());
-
-
         Date date = new Date(chat.getCreateAt());
 //        String formatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
         String formatted = new SimpleDateFormat("HH:mm").format(date);
         holder.tv_time.setText(formatted+"");
-
+        String strUrl = chat.getContent();
+        if(strUrl.contains(".jpg") || strUrl.contains(".jpeg") || strUrl.contains(".png")){
+            holder.show_message.setVisibility(View.GONE);
+            Uri myUri = Uri.parse(JWTUtils.PATH_S3+strUrl);
+            Log.e("S3",strUrl);
+            holder.img_message.setVisibility(View.VISIBLE);
+//            holder.img_message.setImageURI(myUri);
+            Glide.with(holder.img_message.getContext()).load(myUri).into(holder.img_message);
+        }else{
+            holder.img_message.setVisibility(View.GONE);
+            holder.show_message.setVisibility(View.VISIBLE);
+            holder.show_message.setText(chat.getContent());
+        }
 //        if(imageurl.equals("default"){
 //            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
 //        }else{
@@ -79,13 +92,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         Chat mChat;
         int position;
-        ImageView profile_image;
+        ImageView profile_image, img_message;
         TextView show_message, tv_Name_text, tv_time;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             profile_image =  itemView.findViewById(R.id.profile_image);
             show_message =  itemView.findViewById(R.id.show_message);
             tv_Name_text =  itemView.findViewById(R.id.tv_Name_text);
+            img_message =  itemView.findViewById(R.id.img_message);
             tv_time =  itemView.findViewById(R.id.tv_time);
         }
     }

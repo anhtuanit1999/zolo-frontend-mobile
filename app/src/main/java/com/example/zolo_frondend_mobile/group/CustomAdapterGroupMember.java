@@ -35,7 +35,7 @@ public class CustomAdapterGroupMember extends RecyclerView.Adapter<CustomAdapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Friend friend = mFriends.get(position);
-        holder.mFriend = friend;
+        holder.mFriend = mFriends.get(position);
         holder.imgItem.setImageResource(R.drawable.tuong);
         holder.tvItemNickname.setText(friend.getNickname());
         holder.tvItemFullname.setText(friend.getFullName());

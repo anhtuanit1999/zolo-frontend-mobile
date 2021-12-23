@@ -1,12 +1,24 @@
 package com.example.zolo_frondend_mobile.chat;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zolo_frondend_mobile.R;
+import com.example.zolo_frondend_mobile.RealPathUtil;
 import com.example.zolo_frondend_mobile.api.ApiHeaderService;
+import com.example.zolo_frondend_mobile.api.ApiService;
 import com.example.zolo_frondend_mobile.danhsach.Friend;
 import com.example.zolo_frondend_mobile.entity.StatusCode204VerifyOTP;
 import com.example.zolo_frondend_mobile.group.Group;
@@ -30,6 +44,7 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -38,12 +53,46 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MessageActivity extends AppCompatActivity {
-    ImageButton btnImgSend;
+public class MessageActivity extends AppCompatActivity implements OnClickMessage{
+    Uri mUri;
+    String namePath = null;
+    ProgressDialog mProgressDialog;
+    private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == Activity.RESULT_OK){
+                        Intent data = result.getData();
+                        if(data == null){
+                            return;
+                        }
+                        //lấy đường link ảnh từ kho ảnh
+                        Uri uri = data.getData();
+                        mUri = uri;
+                        try {
+                            //hiện ảnh bằng link
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            Toast.makeText(MessageActivity.this, "chonanh", Toast.LENGTH_SHORT).show();
+//                            imgFromGallry.setImageBimap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+    );
+
+    private static final int My_REQUEST_CODE = 10;
+    ImageButton btnImgSend, btnSelectImage;
     ImageView imgMess;
     TextView tvNameMess;
     EditText textsend;
@@ -74,7 +123,8 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Please wait");
 
         btnImgSend = findViewById(R.id.btn_send);
         textsend = findViewById(R.id.textsend);
@@ -90,7 +140,7 @@ public class MessageActivity extends AppCompatActivity {
 //        adt = new MessageAdapter(mChats);
 //        recycler_vew.setAdapter(adt);
         recycler_vew.setHasFixedSize(true);
-        adt = new MessageAdapter(mChats);
+        adt = new MessageAdapter(mChats, MessageActivity.this);
         recycler_vew.setAdapter(adt);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
@@ -111,29 +161,36 @@ public class MessageActivity extends AppCompatActivity {
         btnImgSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String msg = textsend.getText().toString();
-                if(msg.trim().equals("")){
-                    Toast.makeText(MessageActivity.this, "Type message", Toast.LENGTH_SHORT).show();
-                }else{
-                    //luu du lieu, tai lai du lieu
+                //file
+                if(mUri != null){//có ảnh
+                    sendFile();// thì mới call api
 
-                    MessageSend a = new MessageSend();
-                    a.setMess(textsend.getText().toString().trim());
-                    a.setChatgroupId(mGroup.getId());
-                    a.setUserId(JWTUtils.USER_ZOLO.getId());
-                    Date da = new Date();
-                    a.setCreateAt(da.getTime()); //doi nga gio java
+                    return;
+                }else{
+                    //
+                    String msg = textsend.getText().toString();
+                    if(msg.trim().equals("")){
+                        Toast.makeText(MessageActivity.this, "Type message", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //luu du lieu, tai lai du lieu
+
+                        MessageSend a = new MessageSend();
+                        a.setMess(textsend.getText().toString().trim());
+                        a.setChatgroupId(mGroup.getId());
+                        a.setUserId(JWTUtils.USER_ZOLO.getId());
+                        Date da = new Date();
+                        a.setCreateAt(da.getTime()); //doi nga gio java
 //                    Date date = new Date(valueFromClient);
 //
 //                    String formatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-                    Gson gson = new Gson();
-                    String json = gson.toJson(a);
-                    SaveMess(mGroup, textsend);
+                        Gson gson = new Gson();
+                        String json = gson.toJson(a);
+                        SaveMess(mGroup, textsend);
 //                    recycler_vew.scrollToPosition(mChats.size()-1);
-                    mSocket.emit("chat message", json);
+                        mSocket.emit("chat message", json);
+                    }
+                    textsend.setText("");
                 }
-                textsend.setText("");
-
             }
         });
 
@@ -156,19 +213,78 @@ public class MessageActivity extends AppCompatActivity {
         });
 
         //set lai img va ten group hoac ban be
-
+        btnSelectImage = findViewById(R.id.btnSelectImage);
+        btnSelectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRequestPermisson();
+            }
+        });
 
     }
 
+    private void sendFile() {
+        mProgressDialog.show();
+        String strRealPath = RealPathUtil.getRealPath(this, mUri);
+        Log.e("TAG",""+strRealPath);
+        File file = new File(strRealPath);
+        RequestBody resquestBodyFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part multipartBodyFile = MultipartBody.Part.createFormData("file", file.getName(), resquestBodyFile);
+
+        ApiHeaderService.apiService.sendFileS3(multipartBodyFile).enqueue(new Callback<StatusFileS3>() {
+            @Override
+            public void onResponse(Call<StatusFileS3> call, Response<StatusFileS3> response) {
+                StatusFileS3 statusFileS3 = response.body();
+//                if(statusFileS3 != null){
+//                    Toast.makeText(MessageActivity.this, "Call api fail", Toast.LENGTH_SHORT).show();
+//                }
+                Log.e("TAG", statusFileS3.getData().getFileName());
+                mProgressDialog.dismiss();
+                MessageSend a = new MessageSend();
+                a.setMess(statusFileS3.getData().getFileName()+"");
+                a.setChatgroupId(mGroup.getId());
+                a.setUserId(JWTUtils.USER_ZOLO.getId());
+                Date da = new Date();
+                a.setCreateAt(da.getTime()); //doi nga gio java
+//                    Date date = new Date(valueFromClient);
+//
+//                    String formatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                Gson gson = new Gson();
+                String json = gson.toJson(a);
+                namePath = statusFileS3.getData().getFileName();
+                SaveMess(mGroup, textsend);
+
+//                    recycler_vew.scrollToPosition(mChats.size()-1);
+                mSocket.emit("chat message", json);
+                textsend.setText("");
+                namePath = null;
+
+            }
+
+            @Override
+            public void onFailure(Call<StatusFileS3> call, Throwable t) {
+                mProgressDialog.dismiss();
+                Toast.makeText(MessageActivity.this, "Call api fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void SaveMess(Group group, EditText textsend) {
-        ApiHeaderService.apiService.createChat(group.getId(),textsend.getText().toString().trim()).enqueue(new Callback<StatusChat>() {
+        String messe = textsend.getText().toString().trim();
+        if (mUri != null){
+            messe = namePath;
+        }
+        mUri = null;
+        ApiHeaderService.apiService.createChat(group.getId(),messe).enqueue(new Callback<StatusChat>() {
             @Override
             public void onResponse(Call<StatusChat> call, Response<StatusChat> response) {
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 200){
                         Toast.makeText(MessageActivity.this, "luu chat thanh cong", Toast.LENGTH_SHORT).show();
+                        mUri = null;
                     }else{
                         Toast.makeText(MessageActivity.this, "Get chat group fail", Toast.LENGTH_SHORT).show();
+                        mUri = null;
                     }
 
                 }else if(response.code() == 404){
@@ -216,12 +332,16 @@ public class MessageActivity extends AppCompatActivity {
                         String content = obj.getString("mess");
                         Integer groupId = obj.getInt("chatgroupId");
                         Integer userId = obj.getInt("userId");
-                        Long createAt = obj.getLong("createAt");
+//                        if(obj.getLong("createAt") != ){
+//
+//                        }
+//                        Long createAt = obj.getLong("createAt");
                         MessageGet messageGet = new MessageGet();
                         messageGet.setContent(content);
                         messageGet.setChatgroupId(groupId);
                         messageGet.setUserId(userId);
-                        messageGet.setCreateAt(createAt);
+                        Date date = new Date();
+                        messageGet.setCreateAt(date.getTime());
                         if(messageGet.getChatgroupId() == mGroup.getId()){
                             mChats.add(messageGet);
                             adt.changList(mChats);
@@ -277,7 +397,7 @@ public class MessageActivity extends AppCompatActivity {
                                 }
                             });
 
-                            adt = new MessageAdapter(mChats);
+                            adt = new MessageAdapter(mChats, MessageActivity.this);
                             recycler_vew.setAdapter(adt);
                             adt.changList(mChats);
 //                        recycler_vew.scrollToPosition(mChats.size()-1);
@@ -432,5 +552,35 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void onClickRequestPermisson() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            openGallery();
+            return;
+        }
+        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            openGallery();
+        }else{
+            String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+            requestPermissions(permission, My_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == My_REQUEST_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openGallery();
+            }
+        }
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        mActivityResultLauncher.launch(Intent.createChooser(intent,"Select Picture"));
     }
 }

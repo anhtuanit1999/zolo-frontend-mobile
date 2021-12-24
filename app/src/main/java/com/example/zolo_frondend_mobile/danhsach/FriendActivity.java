@@ -63,6 +63,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
     Button btnCreateGroup, btnCancer;
     TextView edtNameGroup;
     ProgressBar progressBar7;
+    ImageButton imgbtnRe;
 
 
     @Override
@@ -71,6 +72,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
         setContentView(R.layout.activity_friend);
 
         rcv_friend = findViewById(R.id.rcv_friend);
+        imgbtnRe = findViewById(R.id.imgbtnRe);
         rcv_member = findViewById(R.id.rcv_member);
         rcv_group = findViewById(R.id.rcv_group);
         imgbtnNotF = findViewById(R.id.imgbtnNotF);
@@ -115,6 +117,14 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
         rcv_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         getGroups();
 
+        imgbtnRe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
         btnCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +143,8 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                                 startActivity(getIntent());
                                 rcv_group.setVisibility(View.VISIBLE);
                                 imgAdd.setVisibility(View.VISIBLE);
+                                imgbtnRe.setVisibility(View.VISIBLE);
+
                             }
 
                         }else if(response.code() == 404){
@@ -188,6 +200,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                 edtNameGroup.setVisibility(View.GONE);
                 rcv_group.setVisibility(View.VISIBLE);
                 imgAdd.setVisibility(View.VISIBLE);
+                imgbtnRe.setVisibility(View.VISIBLE);
             }
         });
 
@@ -201,6 +214,7 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
                 getMembers();
                 rcv_group.setVisibility(View.GONE);
                 imgAdd.setVisibility(View.GONE);
+                imgbtnRe.setVisibility(View.GONE);
             }
         });
 

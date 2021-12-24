@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/imgPG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="149dp"
+        android:layout_height="144dp"
         android:layout_marginTop="4dp"
+        android:background="#F3F3F3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +55,14 @@
 
     <Button
         android:id="@+id/btnGPOutGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="104dp"
+        android:layout_height="54dp"
         android:layout_marginTop="84dp"
+        android:background="@drawable/btn_red_stroke"
         android:text="Out Group"
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toEndOf="@+id/imgPG"
@@ -65,30 +70,37 @@
 
     <Button
         android:id="@+id/btnPGDeleteGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_width="122dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/btn_red_stroke"
         android:text="Delete Group"
-        app:layout_constraintEnd_toStartOf="@+id/imgPG"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.581"
+        app:layout_constraintStart_toEndOf="@+id/imgPG"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btnPGTurnBack"
         android:layout_width="59dp"
         android:layout_height="49dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
+        android:background="#F3F3F3"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toStartOf="@+id/imgPG"
-        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintHorizontal_bias="0.195"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background_right" />
+        app:srcCompat="@drawable/back" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_mem"
         android:layout_width="413dp"
         android:layout_height="639dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

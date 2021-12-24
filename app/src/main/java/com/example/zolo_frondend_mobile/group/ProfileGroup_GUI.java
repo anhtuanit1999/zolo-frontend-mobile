@@ -82,7 +82,7 @@ public class ProfileGroup_GUI extends AppCompatActivity implements OnClickMember
 
         group = (Group) getIntent().getSerializableExtra("group");
         if(group != null){
-            imgPG.setImageResource(R.drawable.tuong);
+            imgPG.setImageResource(R.drawable.avar_group);
             tvPGName.setText(group.getName());
             getFrienGroups();
         }
@@ -210,6 +210,7 @@ public class ProfileGroup_GUI extends AppCompatActivity implements OnClickMember
                 btnPGDeleteGroup.setVisibility(View.GONE);
                 getFriends();
                 btnPGAdd.setVisibility(View.GONE);
+                rcvPG.setVisibility(View.GONE);
             }
         });
 
@@ -221,6 +222,7 @@ public class ProfileGroup_GUI extends AppCompatActivity implements OnClickMember
                 btnAddMember.setVisibility(View.GONE);
                 btnCancelMember.setVisibility(View.GONE);
                 btnPGAdd.setVisibility(View.VISIBLE);
+                rcvPG.setVisibility(View.VISIBLE);
                 btnGPOutGroup.setVisibility(View.VISIBLE);
                 btnPGDeleteGroup.setVisibility(View.VISIBLE);
             }
@@ -239,6 +241,7 @@ public class ProfileGroup_GUI extends AppCompatActivity implements OnClickMember
                                 btnAddMember.setVisibility(View.GONE);
                                 btnCancelMember.setVisibility(View.GONE);
                                 btnPGAdd.setVisibility(View.VISIBLE);
+                                rcvPG.setVisibility(View.VISIBLE);
                                 btnGPOutGroup.setVisibility(View.VISIBLE);
                                 btnPGDeleteGroup.setVisibility(View.VISIBLE);
                                 finish();

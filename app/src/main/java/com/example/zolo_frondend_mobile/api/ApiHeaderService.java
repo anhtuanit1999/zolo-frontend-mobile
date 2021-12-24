@@ -53,8 +53,8 @@ public interface ApiHeaderService {
             .create();
 
     ApiHeaderService apiService = new Retrofit.Builder()
-//            .baseUrl("https://zolo-backend.herokuapp.com/")
-            .baseUrl("http://192.168.100.4:3000/")
+            .baseUrl("https://zolo-backend.herokuapp.com/")
+//            .baseUrl("http://192.168.100.4:3000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()

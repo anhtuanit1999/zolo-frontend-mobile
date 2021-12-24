@@ -107,8 +107,8 @@ public class MessageActivity extends AppCompatActivity implements OnClickMessage
     Group mGroup;
     Intent mIntent;
 
-//    private String URL_SERVER = "https://zolo-backend.herokuapp.com/";
-    private String URL_SERVER = "http://192.168.100.4:3000/";
+    private String URL_SERVER = "https://zolo-backend.herokuapp.com/";
+//    private String URL_SERVER = "http://192.168.100.4:3000/";
     private Socket mSocket;
     {
         try{
@@ -149,12 +149,12 @@ public class MessageActivity extends AppCompatActivity implements OnClickMessage
         mGroup = (Group) getIntent().getSerializableExtra("group");
 
         tvNameMess.setText(mGroup.getName());
-        imgMess.setImageResource(R.drawable.tuong);
+        imgMess.setImageResource(R.drawable.avar_group);
 
         if(getIntent().getSerializableExtra("friend") != null){
             Friend friend = (Friend) getIntent().getSerializableExtra("friend");
             tvNameMess.setText(friend.getFullName());
-            imgMess.setImageResource(R.drawable.avar_group);
+            imgMess.setImageResource(R.drawable.avatar_oneperson);
         }
 
         readMessage();
@@ -471,7 +471,7 @@ public class MessageActivity extends AppCompatActivity implements OnClickMessage
                         if(response.body().getData().size() == 0){
 
                         }else{
-                            Toast.makeText(MessageActivity.this, "getLastId thanh cong", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MessageActivity.this, "getLastId thanh cong", Toast.LENGTH_SHORT).show();
                             lastId = response.body().getData().get(0).getId();
                         }
                     }else{
@@ -517,7 +517,7 @@ public class MessageActivity extends AppCompatActivity implements OnClickMessage
                 if(response.isSuccessful()){
                     if(response.body().getCode() == 200){
                         if(response.body().getData().size() != 0){
-                            Toast.makeText(MessageActivity.this, "get min thanh cong " + minMessId, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MessageActivity.this, "get min thanh cong " + minMessId, Toast.LENGTH_SHORT).show();
                             minMessId = response.body().getData().get(0).getId();
                         }
                     }else{

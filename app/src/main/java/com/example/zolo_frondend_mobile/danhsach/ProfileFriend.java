@@ -39,7 +39,7 @@ public class ProfileFriend extends AppCompatActivity {
 
         mFriend = (Friend) getIntent().getSerializableExtra("friend");
         if(mFriend != null){
-            imgPF.setImageResource(R.drawable.tuong);
+            imgPF.setImageResource(R.drawable.avatar_oneperson);
             tvPFNickName.setText(mFriend.getNickname());
             tvPFPhone.setText(mFriend.getPhone());
         }

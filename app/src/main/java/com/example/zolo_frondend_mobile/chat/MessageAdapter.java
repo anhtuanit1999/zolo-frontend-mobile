@@ -60,7 +60,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         String formatted = new SimpleDateFormat("HH:mm").format(date);
         holder.tv_time.setText(formatted+"");
         String strUrl = chat.getContent();
-        if(strUrl.contains(".jpg") || strUrl.contains(".jpeg") || strUrl.contains(".png")){
+        if(strUrl.contains(".jpg") || strUrl.contains(".jpeg") || strUrl.contains(".png") ||
+                strUrl.contains(".JPG") || strUrl.contains(".JPEG") || strUrl.contains(".PNG")){
             holder.show_message.setVisibility(View.GONE);
             Uri myUri = Uri.parse(JWTUtils.PATH_S3+strUrl);
             Log.e("S3",strUrl);

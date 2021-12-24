@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.zolo_frondend_mobile.MainActivity;
 import com.example.zolo_frondend_mobile.Profile_GUI;
 import com.example.zolo_frondend_mobile.R;
@@ -81,6 +82,14 @@ public class FriendActivity extends AppCompatActivity implements OnClckFriend, O
         edtNameGroup = findViewById(R.id.edtNameGroup);
         progressBar7 = findViewById(R.id.progressBar7);
         progressBar7.setVisibility(View.GONE);
+
+//        imgbtnNotF.setImageResource(R.drawable.nguoila);
+//        imgbtnAccept.setImageResource(R.drawable.addfriend);
+//        imgbtnProfile.setImageResource(R.drawable.avatar_oneperson);
+
+        Glide.with(this).load(R.drawable.nguoila).into(imgbtnNotF);
+        Glide.with(this).load(R.drawable.addfriend).into(imgbtnAccept);
+        Glide.with(this).load(R.drawable.avatar_oneperson).into(imgbtnProfile);
 
         rcv_member.setVisibility(View.GONE);
         btnCreateGroup.setVisibility(View.GONE);

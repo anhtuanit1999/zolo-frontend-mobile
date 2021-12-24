@@ -154,6 +154,7 @@ public class MessageActivity extends AppCompatActivity implements OnClickMessage
         if(getIntent().getSerializableExtra("friend") != null){
             Friend friend = (Friend) getIntent().getSerializableExtra("friend");
             tvNameMess.setText(friend.getFullName());
+            imgMess.setImageResource(R.drawable.avar_group);
         }
 
         readMessage();

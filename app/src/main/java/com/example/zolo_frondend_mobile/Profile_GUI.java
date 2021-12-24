@@ -55,7 +55,7 @@ public class Profile_GUI extends AppCompatActivity {
 
         tvPName.setText(JWTUtils.USER_ZOLO.getFullName());
         tvPPhone.setText(JWTUtils.USER_ZOLO.getPhone());
-        imgP.setImageResource(R.drawable.tuong);
+        imgP.setImageResource(R.drawable.avatar_oneperson);
 
         btnNewPassword.setOnClickListener(new View.OnClickListener() {
             @Override

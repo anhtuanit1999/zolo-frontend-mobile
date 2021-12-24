@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.zolo_frondend_mobile.R;
 import com.example.zolo_frondend_mobile.danhsach.Friend;
 import com.example.zolo_frondend_mobile.danhsach.OnClckFriend;
@@ -36,7 +37,8 @@ public class CustomAdapterGroup extends RecyclerView.Adapter<CustomAdapterGroup.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Group gr = mGroups.get(position);
         holder.mGroup = gr;
-        holder.imgGroup.setImageResource(R.drawable.tuong);
+//        holder.imgGroup.setImageResource(R.drawable.tuong);
+        Glide.with(holder.imgGroup.getContext()).load(R.drawable.avar_group).into(holder.imgGroup);
         holder.tvGName.setText(gr.getName());
     }
 

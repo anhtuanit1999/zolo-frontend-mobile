@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.zolo_frondend_mobile.R;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class CustomAdapterNotFriend extends RecyclerView.Adapter<CustomAdapterNo
         Friend friend = mFriends.get(position);
         holder.mFriend = friend;
         holder.imgItem.setImageResource(R.drawable.tuong);
+        Glide.with(holder.imgItem.getContext()).load(R.drawable.avatar_oneperson).into(holder.imgItem);
         holder.tvItemNickname.setText(friend.getNickname());
         holder.tvItemFullname.setText(friend.getFullName());
         holder.btnAddFriend.setText("Kết bạn");

@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view9"
         app:layout_constraintVertical_bias="0.0" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,24 +63,36 @@
 
         <EditText
             android:id="@+id/textsend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/btn_send"
+            android:layout_width="280dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="40dp"
             android:background="@color/white"
             android:hint="Type a message..."
             android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textColorHint="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/btn_send"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/sned" />
+            android:layout_width="46dp"
+            android:layout_height="47dp"
+            android:background="@drawable/sned"
+            app:layout_constraintBottom_toBottomOf="@+id/btnSelectImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnSelectImage" />
 
-    </RelativeLayout>
+        <ImageButton
+            android:id="@+id/btnSelectImage"
+            android:layout_width="49dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textsend"
+            app:layout_constraintStart_toEndOf="@+id/textsend"
+            app:srcCompat="@drawable/footer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/view9"
@@ -96,31 +108,26 @@
         android:layout_width="70dp"
         android:layout_height="45dp"
         android:scaleType="centerCrop"
+        android:background="@drawable/avar_group"
         app:layout_constraintBottom_toTopOf="@+id/recycler_vew"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view9"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvNameMess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
         android:text="TextView"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recycler_vew"
-        app:layout_constraintStart_toEndOf="@+id/imgMessa"
-        app:layout_constraintTop_toTopOf="@+id/view9" />
-
-    <ImageButton
-        android:id="@+id/btnSelectImage"
-        android:layout_width="111dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="288dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.546"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/footer" />
+        app:layout_constraintHorizontal_bias="0.021"
+        app:layout_constraintStart_toEndOf="@+id/imgMessa"
+        app:layout_constraintTop_toTopOf="@+id/view9"
+        app:layout_constraintVertical_bias="0.076" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

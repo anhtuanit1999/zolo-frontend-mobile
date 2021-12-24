@@ -4,24 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:background="#FFFFFF">
 
 
     <View
         android:id="@+id/view6"
-        android:layout_width="389dp"
-        android:layout_height="123dp"
+        android:layout_width="413dp"
+        android:layout_height="147dp"
+        android:background="@drawable/view_gradient"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgGroup"
-        android:layout_width="124dp"
-        android:layout_height="108dp"
+        android:layout_width="102dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/view6"
         app:layout_constraintStart_toStartOf="@+id/view6"
         app:layout_constraintTop_toTopOf="@+id/view6"
+        app:layout_constraintVertical_bias="0.483"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -29,23 +35,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textColor="#000000"
+        android:textColor="#EFEFEF"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/view6"
         app:layout_constraintEnd_toEndOf="@+id/view6"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toEndOf="@+id/imgGroup"
         app:layout_constraintTop_toTopOf="@+id/view6"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintVertical_bias="0.133" />
 
     <Button
         android:id="@+id/btnGText"
-        android:layout_width="119dp"
-        android:layout_height="59dp"
+        android:layout_width="164dp"
+        android:layout_height="52dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/btn_stroke"
         android:text="Text"
+        android:textColor="#00BCD4"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/view6"
-        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintHorizontal_bias="0.439"
         app:layout_constraintStart_toEndOf="@+id/imgGroup"
         app:layout_constraintTop_toBottomOf="@+id/tvGName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,23 +11,25 @@
         android:id="@+id/edtFEmail"
         android:layout_width="366dp"
         android:layout_height="53dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="176dp"
         android:ems="10"
         android:hint="Nhập Email"
         android:inputType="textPersonName"
         android:textColor="#000000"
-        android:textColorHint="#000000"
+        android:textColorHint="#5E5555"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnFOTP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="146dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="128dp"
+        android:background="@drawable/btn_gradient"
         android:text="Send OTP"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,4 +44,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtFEmail" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="QUÊN MẬT KHẨU"
+        android:textColor="#000000"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
